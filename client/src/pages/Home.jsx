@@ -1,4 +1,4 @@
-import { Header, HeroSection } from '@/components'
+import { CategoriesSection, Header, HeroSection } from '@/components'
 import React from 'react'
 
 const Home = () => {
@@ -6,6 +6,7 @@ const Home = () => {
     <div>
       <Header/>
       <HeroSection/>
+      <CategoriesSection />
     </div>
   )
 }

@@ -66,3 +66,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+.noScroll_ch::-webkit-scrollbar {
+  display: none;
+}
+
+.noscroll_all {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
