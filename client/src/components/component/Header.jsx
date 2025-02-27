@@ -7,7 +7,7 @@ const Header = () => {
     let cartCount = 0;
   return (
     <header className="bg-white shadow-md py-3 flex justify-between items-center text-gray-900 sticky top-0 z-50">
-      <img src="/logo.png" alt="" width={90} />
+      <h1 className="text-2xl font-extrabold text-blue-800">SHOP-EASE</h1>
       <Input type="text" placeholder="Search products..." className="w-1/3 text-gray-900 border-gray-300" />
       <div className="space-x-4 flex items-center">
         <button className="relative">
