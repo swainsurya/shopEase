@@ -28,7 +28,7 @@ const HeroSection = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       nextBanner();
-    }, 5000); // Change banner every 5 seconds
+    }, 2000); // Change banner every 2 seconds
 
     // Clean up the interval on component unmount or whenever the effect is rerun
     return () => clearInterval(intervalId);

@@ -1,4 +1,5 @@
-import { CategoriesSection, Header, HeroSection } from '@/components'
+import { CategoriesSection, Header, HeroSection, ProductSection } from '@/components'
+import Footer from '@/components/component/Footer'
 import React from 'react'
 
 const Home = () => {
@@ -7,6 +8,10 @@ const Home = () => {
       <Header/>
       <HeroSection/>
       <CategoriesSection />
+      <ProductSection sectionName={"Most Popular"}/>
+      <ProductSection sectionName={"Newly Launched"}/>
+      <ProductSection sectionName={"Featured Products"}/>
+      <Footer />
     </div>
   )
 }
