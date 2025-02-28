@@ -35,7 +35,7 @@ const HeroSection = () => {
   }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   return (
-    <section className="w-full h-[300px] md:h-[750px] bg-gradient-to-r from-blue-700 to-indigo-900 flex items-center justify-center text-white text-center relative mt-4 rounded-lg overflow-hidden">
+    <section className="w-full h-[300px] md:h-[750px] bg-gradient-to-r from-blue-200 to-indigo-900 flex items-center justify-center text-white text-center relative overflow-hidden">
       {/* Banner Image */}
       <img
         src={banners[currentBanner].imageUrl}

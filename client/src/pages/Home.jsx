@@ -1,17 +1,18 @@
 import { CategoriesSection, Header, HeroSection, ProductSection } from '@/components'
 import Footer from '@/components/component/Footer'
 import React from 'react'
+import products from '@/constants/products'
+
+const showCaseProduct = products.slice(0,8)
 
 const Home = () => {
   return (
     <div>
-      <Header/>
       <HeroSection/>
       <CategoriesSection />
-      <ProductSection sectionName={"Most Popular"}/>
-      <ProductSection sectionName={"Newly Launched"}/>
-      <ProductSection sectionName={"Featured Products"}/>
-      <Footer />
+      <ProductSection sectionName={"Most Popular"} products={showCaseProduct}/>
+      <ProductSection sectionName={"Newly Launched"} products={showCaseProduct}/>
+      <ProductSection sectionName={"Featured Products"} products={showCaseProduct}/>
     </div>
   )
 }
