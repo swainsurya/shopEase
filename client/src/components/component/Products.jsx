@@ -1,17 +1,19 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, ArrowUp } from "lucide-react";
+import { ArrowRight, ArrowUp } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 
 
 const ProductSection = ({ sectionName, products }) => {
+    const location = useLocation();
     return (
         <section className="mt-8 flex flex-col">
             <h2 className="text-2xl md:text-3xl font-bold mb-8 text-blue-800 uppercase self-center">{sectionName}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {products.map((product) => (
-                    <Card key={product.id} className="bg-white shadow-md border border-gray-300 rounded-md hover:shadow-lg transition-shadow duration-300">
+                    <Link to={`/product/details/${product.id}`} key={product.id} className="bg-white shadow-md border border-gray-300 rounded-md hover:shadow-lg transition-shadow duration-300 cursor-pointer">
                         <CardContent className="p-4 flex items-center justify-around gap-6">
                             <img src={product.image} alt={product.name} className="h-full w-1/3 object-cover rounded-md" />
                             <div className="flex flex-1 flex-col h-full justify-between items-center w-1/2">
@@ -30,10 +32,12 @@ const ProductSection = ({ sectionName, products }) => {
                                 </div>
                             </div>
                         </CardContent>
-                    </Card>
+                    </Link>
                 ))}
             </div>
-            <div className="text-blue-700/70 mt-3 font-semibold flex gap-2 ">View More <ArrowRight/></div>
+            {
+                location.pathname == "/products" ?("") :(<Link to={"/products"} className="text-blue-700/70 mt-3 font-semibold flex gap-2 ">View More <ArrowRight/></Link>)
+            }
         </section>
     );
 };

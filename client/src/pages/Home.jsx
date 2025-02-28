@@ -1,5 +1,4 @@
-import { CategoriesSection, Header, HeroSection, ProductSection } from '@/components'
-import Footer from '@/components/component/Footer'
+import { CategoriesSection, HeroSection, ProductSection } from '@/components'
 import React from 'react'
 import products from '@/constants/products'
 
