@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import products from '@/constants/products';
 import { ProductSection } from '@/components';
@@ -9,7 +9,10 @@ const ProductDetailsPage = () => {
     const { id } = useParams();
     const product = products.find((p) => p.id == id);
     const similarProducts = products.slice(0, 8);
-    
+
+    // State for modal
+    const [selectedImage, setSelectedImage] = useState(null);
+
     return (
         <div className="mt-5 md:mt-10 px-4">
             {/* Product Details Section */}
@@ -19,7 +22,8 @@ const ProductDetailsPage = () => {
                     <img 
                         src={product.image} 
                         alt={product.name} 
-                        className="w-full md:h-[450px] object-contain rounded-lg shadow-md"
+                        className="w-full md:h-[450px] object-contain rounded-lg shadow-md cursor-pointer"
+                        onClick={() => setSelectedImage(product.image)}
                     />
                     <div className="w-full flex justify-between mt-4 gap-2">
                         {[...Array(3)].map((_, index) => (
@@ -28,6 +32,7 @@ const ProductDetailsPage = () => {
                                 src={product.image} 
                                 alt="Thumbnail" 
                                 className="w-1/3 h-24 object-contain rounded-md cursor-pointer border hover:border-black p-1 transition-all duration-300 hover:scale-105"
+                                onClick={() => setSelectedImage(product.image)}
                             />
                         ))}
                     </div>
@@ -38,7 +43,8 @@ const ProductDetailsPage = () => {
                     <h1 className="text-3xl md:text-5xl font-bold text-gray-800">{product.name}</h1>
                     <p className="text-lg md:text-xl text-gray-700 leading-relaxed">{product.description}</p>
                     <div className="text-2xl md:text-3xl font-semibold text-gray-900">
-                        Price: <span className="text-green-600">${product.price}</span> <span className="text-red-600 line-through">${(product.price * 1.21).toFixed(2)}</span>
+                        Price: <span className="text-green-600">${product.price}</span> 
+                        <span className="text-red-600 line-through">${(product.price * 1.21).toFixed(2)}</span>
                     </div>
                     <div className="flex flex-wrap gap-4">
                         <Button className="bg-blue-800 text-white shadow-md hover:bg-blue-700 h-[50px] w-full md:w-[180px] text-lg font-medium transition-all duration-300 hover:scale-105">
@@ -56,6 +62,25 @@ const ProductDetailsPage = () => {
 
             {/* Comment Section */}
             <CommentSection />
+
+            {/* Modal for Large Image */}
+            {selectedImage && (
+                <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
+                    <div className="relative p-5">
+                        <button 
+                            className="absolute top-2 right-2 text-white text-3xl font-bold"
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            &times;
+                        </button>
+                        <img 
+                            src={selectedImage} 
+                            alt="Large Preview" 
+                            className="max-h-[80vh] max-w-[70vw] md:h-[60vh] rounded-lg shadow-lg"
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
