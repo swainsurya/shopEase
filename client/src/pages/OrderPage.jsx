@@ -31,19 +31,19 @@ const OrderPage = () => {
   };
 
   return (
-    <div className="p-6 mx-auto bg-gray-100 min-h-screen rounded-lg shadow-lg flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">My Orders</h1>
+    <div className="p-6 mx-auto min-h-screen rounded-lg shadow-lg flex flex-col items-center">
+      <h1 className="text-3xl font-bold mb-6 text-center">My Orders</h1>
       <div className="w-full space-y-6">
         {orders.length > 0 ? (
           orders.map((order) => (
-            <Card key={order.id} className="border rounded-lg shadow-md p-6 bg-white flex flex-col md:flex-row items-center w-full">
+            <Card key={order.id} className="rounded-lg shadow-md p-6 border-white flex flex-col md:flex-row items-center w-full">
               <CardContent className="w-full flex flex-col md:flex-row items-center gap-6">
                 <img src={order.image} alt={order.name} className="w-24 h-24 object-cover rounded-lg border" />
                 <div className="flex-1 text-center md:text-left">
-                  <p className="text-xl font-semibold text-gray-800">{order.name}</p>
-                  <p className="text-gray-500 text-sm">Order ID: {order.id}</p>
-                  <p className="text-gray-500 text-sm">Date: {order.date}</p>
-                  <p className="text-gray-700 mt-2 font-medium text-lg">Total: ₹{order.total}</p>
+                  <p className="text-xl font-semibold">{order.name}</p>
+                  <p className="text-sm">Order ID: {order.id}</p>
+                  <p className="text-sm">Date: {order.date}</p>
+                  <p className="mt-2 font-medium text-lg">Total: ${order.total}</p>
                 </div>
                 <div className="flex flex-col items-center md:items-end">
                   <Badge
@@ -68,7 +68,7 @@ const OrderPage = () => {
             </Card>
           ))
         ) : (
-          <p className="text-center text-gray-600">No orders found.</p>
+          <p className="text-center">No orders found.</p>
         )}
       </div>
       <ProductSection sectionName={"Sponsered Products"} products={SponseredProducts}/>
@@ -82,7 +82,7 @@ const OrderPage = () => {
             <p className="text-gray-600">Are you sure you want to cancel the order for {selectedOrder.name}?</p>
             <DialogFooter className="flex flex-col md:flex-row md:justify-end gap-3">
               <Button variant="outline" onClick={() => setSelectedOrder(null)}>Close</Button>
-              <Button className="bg-red-500 text-white hover:bg-red-600" onClick={handleCancelOrder}>Confirm Cancel</Button>
+              <Button className="bg-red-500 hover:bg-red-600" onClick={handleCancelOrder}>Confirm Cancel</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

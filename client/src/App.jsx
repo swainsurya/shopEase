@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { AllProducts, Home, ProductDetailsPage } from './pages'
 import { Header } from './components'
@@ -7,24 +7,24 @@ import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
 import ProfilePage from './pages/ProfilePage'
 import OrderPage from './pages/OrderPage'
-import { ClerkProvider } from '@clerk/clerk-react'
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key")
-}
+const mode = localStorage.getItem("mode")
+
 const App = () => {
-
+  console.log(mode)
   const {pathname} = useLocation()
   useEffect(()=>{
     window.scrollTo(0,0);
   },[pathname])
 
+  useEffect(()=>{
+    document.getElementsByTagName("main")[0].classList.add(`${mode}`)
+  },[])
+
   return (
     <>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY} className="absolute inset-0">
         <Header />
-        <main className='max-w-screen-2xl mx-auto min-h-screen'>
+        <main className={`max-w-screen-2xl mx-auto min-h-screen`}>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/products' element={<AllProducts />} />
@@ -35,7 +35,6 @@ const App = () => {
             <Route path='/order' element={<OrderPage />} />
           </Routes>
         </main>
-      </ClerkProvider>
       <Footer />
     </>
   )

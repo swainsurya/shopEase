@@ -25,7 +25,7 @@ export default function CommentSection() {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Comments</h2>
       <form onSubmit={handleCommentSubmit} className="mb-4">
         <textarea
@@ -41,8 +41,8 @@ export default function CommentSection() {
         {comments.length > 0 ? (
           comments.map((comment, index) => (
             <div key={index} className="border-b py-2">
-              <p className="text-gray-800 font-semibold">{comment.name} <span className="text-gray-500 text-sm">({comment.date})</span></p>
               <p>{comment.text}</p>
+              <p className="text-white/80 font-semibold">{comment.name} <span className="text-sm">({comment.date})</span></p>
             </div>
           ))
         ) : (

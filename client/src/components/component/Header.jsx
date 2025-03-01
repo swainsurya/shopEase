@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Search, ShoppingCart, User, Home, Edit, Package, Settings, LogOut, Menu, Sun } from "lucide-react";
+import { Search, ShoppingCart, User, Home, Edit, Package, Settings, LogOut, Menu, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { SignInButton, SignUpButton } from "@clerk/clerk-react";
 
 const Header = () => {
   let cartCount = 9;
-  const user = { isLoggedIn: true, name: "Surakanth" }; // Example user object
+  const user = { isLoggedIn: false, name: "Surakanth" }; // Example user object
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [mode , setMode] = useState("");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -20,10 +19,30 @@ const Header = () => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+    setMode(localStorage.getItem("mode"))
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleDark = () => {
+    localStorage.removeItem("mode")
+    localStorage.setItem("mode", "dark")
+    setMode(localStorage.getItem("mode"))
+    console.log("Dark")
+    document.getElementsByTagName("main")[0].classList.add("dark")
+  }
+
+  const handleLight = () => {
+    localStorage.removeItem("mode")
+    setMode("")
+    console.log("light")
+    document.getElementsByTagName("main")[0].classList.remove("dark")
+  }
+
+  useEffect(()=> {
+    setMode(localStorage.getItem("mode"))
+  },[mode])
 
   return (
     <>
@@ -38,12 +57,18 @@ const Header = () => {
         </form>
 
         <div className="space-x-4 hidden md:flex items-center">
+          {
+            mode=="dark"? (<Sun onClick={handleLight} size={24} className="text-white cursor-pointer hidden md:block hover:text-white/80"/>) : (
+              <Moon onClick={handleDark} size={24} className="text-white cursor-pointer hidden md:block hover:text-white/80"/>
+            )
+          }
           <button className="relative">
             <ShoppingCart size={34} className="text-white" />
             {cartCount > 0 && (
               <span className="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full px-1">{cartCount}</span>
             )}
           </button>
+
 
           {user.isLoggedIn ? (
             <div className="relative" ref={dropdownRef}>
@@ -73,12 +98,8 @@ const Header = () => {
             </div>
           ) : (
             <>
-              <SignInButton mode="modal">
                 <Button variant="outline" className="text-blue-800 border-blue-800">Login</Button>
-              </SignInButton>
-              <SignUpButton mode="modal">
                 <Button variant="default" className="bg-blue-800 border-blue-800 hover:bg-blue-700">Signup</Button>
-              </SignUpButton>
             </>
           )}
         </div>
@@ -86,9 +107,18 @@ const Header = () => {
         {/* Mobile Menu */}
         {
           user.isLoggedIn ? (
-            <Sun size={30} className="text-white md:hidden"/>
+            <div className="md:hidden">
+              {
+                mode=="dark" ? (<Sun onClick={handleLight} size={20} className="text-white md:hidden"/>):(<Moon onClick={handleDark} size={20} className="text-white md:hidden"/>)
+              }
+            </div>
           ) : (
-            <Button variant="outline" className="text-blue-800 border-blue-800 md:hidden">Login</Button>
+            <div className="md:hidden flex items-center gap-3">
+              {
+                mode=="dark" ? (<Sun onClick={handleLight} size={20} className="text-white md:hidden"/>):(<Moon onClick={handleDark} size={20} className="text-white md:hidden"/>)
+              }
+            <Button variant="outline" className="text-blue-800 border-blue-800 text-sm px-2 py-1 md:hidden">Login</Button>
+            </div>
           )
         }
       </header>

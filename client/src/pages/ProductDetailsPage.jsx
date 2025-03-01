@@ -14,9 +14,9 @@ const ProductDetailsPage = () => {
     const [selectedImage, setSelectedImage] = useState(null);
 
     return (
-        <div className="mt-5 md:mt-10 px-4">
+        <div className="py-5 md:py-10 px-4">
             {/* Product Details Section */}
-            <div className="w-full flex flex-col md:flex-row items-center gap-10 bg-gray-100 p-6 rounded-lg shadow-lg">
+            <div className="w-full flex flex-col md:flex-row items-center gap-10 p-6 rounded-lg shadow-lg">
                 {/* Product Image Section */}
                 <div className="md:w-1/2 w-full flex flex-col items-center">
                     <img 
@@ -31,7 +31,7 @@ const ProductDetailsPage = () => {
                                 key={index} 
                                 src={product.image} 
                                 alt="Thumbnail" 
-                                className="w-1/3 h-24 object-contain rounded-md cursor-pointer border hover:border-black p-1 transition-all duration-300 hover:scale-105"
+                                className="w-1/3 h-24 object-contain rounded-md cursor-pointer border hover:dark:border-white hover:border-black p-1 transition-all duration-300 hover:scale-105"
                                 onClick={() => setSelectedImage(product.image)}
                             />
                         ))}
@@ -40,9 +40,9 @@ const ProductDetailsPage = () => {
 
                 {/* Product Info Section */}
                 <div className="md:w-1/2 w-full flex flex-col gap-6">
-                    <h1 className="text-3xl md:text-5xl font-bold text-gray-800">{product.name}</h1>
-                    <p className="text-lg md:text-xl text-gray-700 leading-relaxed">{product.description}</p>
-                    <div className="text-2xl md:text-3xl font-semibold text-gray-900">
+                    <h1 className="text-3xl md:text-5xl font-bold">{product.name}</h1>
+                    <p className="text-lg md:text-xl leading-relaxed">{product.description}</p>
+                    <div className="text-2xl md:text-3xl font-semibold">
                         Price: <span className="text-green-600">${product.price}</span> 
                         <span className="text-red-600 line-through">${(product.price * 1.21).toFixed(2)}</span>
                     </div>
