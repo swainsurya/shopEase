@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Search, ShoppingCart, User, Home, Edit, Package, Settings, LogOut, Menu, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   let cartCount = 9;
@@ -10,6 +10,7 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [mode , setMode] = useState("");
+  const {pathname} = useLocation()
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -46,8 +47,8 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-gray-900 shadow-md flex justify-between items-center text-gray-900 sticky top-0 z-50 p-4">
-        <Link to={"/"} className="text-2xl font-extrabold text-white cursor-pointer">SHOP EASE</Link>
+      <header className={`bg-gray-900 shadow-md flex justify-between items-center text-gray-900 sticky top-0 z-50 p-2 md:p-4 ${pathname=="/login" ? "hidden": ""}`}>
+        <Link to={"/"} className="text-sm md:text-2xl font-extrabold text-white cursor-pointer">SHOP EASE</Link>
 
         <form className="hidden md:block w-1/3 relative h-10">
           <Input type="text" placeholder="Search products..." className="w-full text-black border-gray-300 bg-white h-full" />
@@ -62,12 +63,12 @@ const Header = () => {
               <Moon onClick={handleDark} size={24} className="text-white cursor-pointer hidden md:block hover:text-white/80"/>
             )
           }
-          <button className="relative">
+          <Link to={"/cart"} className="relative">
             <ShoppingCart size={34} className="text-white" />
             {cartCount > 0 && (
               <span className="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full px-1">{cartCount}</span>
             )}
-          </button>
+          </Link>
 
 
           {user.isLoggedIn ? (

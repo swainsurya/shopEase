@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import products from '@/constants/products';
 import { ProductSection } from '@/components';
+import { Link } from 'react-router-dom';
 
 const CartPage = () => {
     const [cartItems, setCartItems] = useState(products.slice(0, 5).map(item => ({ ...item, quantity: 1 })));
@@ -17,7 +18,7 @@ const CartPage = () => {
     };
 
     return (
-        <div className="mt-5 md:mt-10 px-4">
+        <div className="py-5 md:py-10 px-4">
             <h1 className="text-3xl md:text-5xl font-bold mb-6">Your Cart</h1>
             
             <div className="w-full flex flex-col gap-6 p-6 rounded-lg shadow-lg">
@@ -51,9 +52,9 @@ const CartPage = () => {
             
             {cartItems.length > 0 && (
                 <div className="flex justify-end mt-6">
-                    <Button className="bg-blue-800 text-white shadow-md hover:bg-blue-700 px-6 py-3 text-lg font-medium transition-all duration-300 hover:scale-105">
+                    <Link to={"/check-out"} className="bg-blue-800 text-white shadow-md hover:bg-blue-700 px-6 py-3 text-lg font-medium transition-all duration-300 hover:scale-105">
                         Proceed to Checkout
-                    </Button>
+                    </Link>
                 </div>
             )}
             <ProductSection sectionName={"Sponsered Products"} products={SponseredProduct} />

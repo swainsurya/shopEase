@@ -1,9 +1,13 @@
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+
+  const {pathname} = useLocation()
+
   return (
-    <footer className="bg-gray-900 text-white py-8">
+    <footer className={`bg-gray-900 text-white py-8 ${pathname=="/login"?"hidden":""}`}>
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>

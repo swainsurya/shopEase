@@ -7,6 +7,7 @@ import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
 import ProfilePage from './pages/ProfilePage'
 import OrderPage from './pages/OrderPage'
+import LoginPage from './pages/LoginPage'
 
 const mode = localStorage.getItem("mode")
 
@@ -24,7 +25,7 @@ const App = () => {
   return (
     <>
         <Header />
-        <main className={`max-w-screen-2xl mx-auto min-h-screen`}>
+        <main className={`mx-auto min-h-screen`}>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/products' element={<AllProducts />} />
@@ -33,6 +34,7 @@ const App = () => {
             <Route path='/check-out' element={<CheckoutPage />} />
             <Route path='/profile' element={<ProfilePage />} />
             <Route path='/order' element={<OrderPage />} />
+            <Route path='/login' element={<LoginPage />} />
           </Routes>
         </main>
       <Footer />
