@@ -1,5 +1,4 @@
 import { userModel } from "../models/user.model.js";
-import { productModel } from "../models/product.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
@@ -30,7 +29,6 @@ export const register = async(req, res) => {
         })
     }
 }
-
 
 export const login = async(req , res) => {
     const {email, password} = req.body ;
@@ -65,4 +63,12 @@ export const login = async(req , res) => {
     } catch (error) {
         
     }
+}
+
+export const logout = async(req , res) => {
+    await res.clearCookies("token") ;
+    res.json({
+        message : "Logout Successful",
+        status: true
+    })
 }
