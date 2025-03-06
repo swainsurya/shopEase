@@ -3,14 +3,14 @@ import mongoose from "mongoose"
 
 const commentSchema = new mongoose.Schema({
     message : { type : String },
-    user : { userId : String ,ref : "users" }
+    user : { userId : String  }
 })
 
 const productSchema = new mongoose.Schema({
-    name : { type : String , required : true },
+    name : { type : String },
     description : { type : String },
-    image : { type : String , required : true },
-    price : { type : Number , required : true } ,
+    image : { type : String },
+    price : { type : Number } ,
     comments : [commentSchema]
 },{ timestamps : true })
 
