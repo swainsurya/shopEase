@@ -3,7 +3,8 @@ import mongoose from "mongoose"
 
 const commentSchema = new mongoose.Schema({
     message : { type : String },
-    user : { userId : String  }
+    user : { type : mongoose.Schema.Types.ObjectId, ref: "users"  },
+    username : {type : String}
 })
 
 const productSchema = new mongoose.Schema({

@@ -4,7 +4,8 @@ import cookieParser from "cookie-parser"
 import { connectDB } from "./lib/connectDB.js"
 import adminRouter from "./routes/admin.routes.js"
 import fileUpload from "express-fileupload"
-import path from "path"
+import userRouter from "./routes/user.routes.js"
+import productRoute from "./routes/product.routes.js"
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -23,7 +24,9 @@ app.use(fileUpload({
     },
 }))
 
-app.use("/admin/product/",adminRouter)
+app.use("/admin/product",adminRouter)
+app.use("/user",userRouter)
+app.use("/product",productRoute)
 
 app.get("/",(req,res) => {
     res.json({

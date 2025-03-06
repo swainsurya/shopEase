@@ -13,14 +13,15 @@ export const register = async(req, res) => {
             })
         }
         const hashedPassword = await bcrypt.hashSync(password, 10) ;
-        const newUser = new userModel({ username , email , password: hashedPassword })
-        await newUser.save()
+        const user = new userModel({ username , email , password: hashedPassword })
+        await user.save()
 
         // Todo Email sent to user 
 
         res.status(200).json({
             message : `Hello and welcome ${username} please login`,
-            status : true
+            status : true,
+            user
         })
     } catch (error) {
         res.status(404).json({
@@ -48,7 +49,7 @@ export const login = async(req , res) => {
             })
         }
 
-        const token = await jwt.sign({userId : newUser._id}, process.env.JWT , {expiresIn : "2d"})
+        const token = await jwt.sign({userId : user._id}, process.env.JWT , {expiresIn : "2d"})
 
         res.cookie("token",token,{
             httpOnly : true,
@@ -57,7 +58,8 @@ export const login = async(req , res) => {
 
         res.status(200).json({
             message : "Login success",
-            status : true
+            status : true,
+            user
         })
 
     } catch (error) {
