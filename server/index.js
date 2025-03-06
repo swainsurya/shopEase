@@ -6,6 +6,7 @@ import adminRouter from "./routes/admin.routes.js"
 import fileUpload from "express-fileupload"
 import userRouter from "./routes/user.routes.js"
 import productRoute from "./routes/product.routes.js"
+import cartRoutes from "./routes/cart.route.js"
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -27,6 +28,7 @@ app.use(fileUpload({
 app.use("/admin/product",adminRouter)
 app.use("/user",userRouter)
 app.use("/product",productRoute)
+app.use("/cart",cartRoutes)
 
 app.get("/",(req,res) => {
     res.json({
