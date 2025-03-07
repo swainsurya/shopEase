@@ -74,3 +74,9 @@ export const logout = async(req , res) => {
         status: true
     })
 }
+
+export const getUser = async(req, res) => {
+    const {userId} = req 
+    const user = await userModel.findById(userId)
+    res.json({user})
+}
