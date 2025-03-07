@@ -4,14 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from "@/context/userContext";
+import axios from "axios";
 
 const Header = () => {
   let cartCount = 9;
-  const { user } = useUser()
+  const { user , setUser } = useUser()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const [mode , setMode] = useState("");
-  const {pathname} = useLocation()
+  const [mode, setMode] = useState("");
+  const { pathname } = useLocation()
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -42,13 +43,18 @@ const Header = () => {
     document.getElementsByTagName("main")[0].classList.remove("dark")
   }
 
-  useEffect(()=> {
+  const handleLogout = async() => {
+    await axios.post("/api/user/logout")
+    setUser(null)
+  }
+
+  useEffect(() => {
     setMode(localStorage.getItem("mode"))
-  },[mode])
+  }, [mode])
 
   return (
     <>
-      <header className={`bg-gray-900 shadow-md flex justify-between items-center text-gray-900 sticky top-0 z-50 p-2 md:p-4 ${pathname=="/login" ? "hidden": ""}`}>
+      <header className={`bg-gray-900 shadow-md flex justify-between items-center text-gray-900 sticky top-0 z-50 p-2 md:p-4 ${pathname == "/login" ? "hidden" : ""}`}>
         <Link to={"/"} className="text-sm md:text-2xl font-extrabold text-white cursor-pointer">SHOP EASE</Link>
 
         <form className="hidden md:block w-1/3 relative h-10">
@@ -60,14 +66,14 @@ const Header = () => {
 
         <div className="space-x-4 hidden md:flex items-center">
           {
-            mode=="dark"? (<Sun onClick={handleLight} size={24} className="text-white cursor-pointer hidden md:block hover:text-white/80"/>) : (
-              <Moon onClick={handleDark} size={24} className="text-white cursor-pointer hidden md:block hover:text-white/80"/>
+            mode == "dark" ? (<Sun onClick={handleLight} size={24} className="text-white cursor-pointer hidden md:block hover:text-white/80" />) : (
+              <Moon onClick={handleDark} size={24} className="text-white cursor-pointer hidden md:block hover:text-white/80" />
             )
           }
           <Link to={"/cart"} className="relative">
             <ShoppingCart size={34} className="text-white" />
-            {cartCount > 0 && (
-              <span className="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full px-1">{cartCount}</span>
+            {user?.carts.length > 0 && (
+              <span className="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full px-1">{user?.carts.length}</span>
             )}
           </Link>
 
@@ -76,23 +82,23 @@ const Header = () => {
             <div className="relative" ref={dropdownRef}>
               <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center space-x-2 text-white">
                 <User size={28} />
-                <span>Hi, {user.name}</span>
+                <span>Hi, {user.username}</span>
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2">
                   <Link to="/" className="flex items-center px-4 py-2 text-gray-900 hover:bg-gray-100">
                     <Home size={18} className="mr-2" /> ShopEase
                   </Link>
-                  <Link to="/edit-profile" className="flex items-center px-4 py-2 text-gray-900 hover:bg-gray-100">
+                  <Link to="/profile" className="flex items-center px-4 py-2 text-gray-900 hover:bg-gray-100">
                     <Edit size={18} className="mr-2" /> Edit Profile
                   </Link>
-                  <Link to="/my-orders" className="flex items-center px-4 py-2 text-gray-900 hover:bg-gray-100">
+                  <Link to="/order" className="flex items-center px-4 py-2 text-gray-900 hover:bg-gray-100">
                     <Package size={18} className="mr-2" /> My Orders
                   </Link>
-                  <Link to="/change-name" className="flex items-center px-4 py-2 text-gray-900 hover:bg-gray-100">
+                  <Link to="/profile" className="flex items-center px-4 py-2 text-gray-900 hover:bg-gray-100">
                     <Settings size={18} className="mr-2" /> Change Name
                   </Link>
-                  <button className="flex items-center w-full text-left px-4 py-2 text-gray-900 hover:bg-gray-100">
+                  <button onClick={handleLogout} className="flex items-center w-full text-left px-4 py-2 text-gray-900 hover:bg-gray-100">
                     <LogOut size={18} className="mr-2" /> Logout
                   </button>
                 </div>
@@ -100,8 +106,12 @@ const Header = () => {
             </div>
           ) : (
             <>
+              <Link to={"/login"}>
                 <Button variant="outline" className="text-blue-800 border-blue-800">Login</Button>
+              </Link>
+              <Link to={"/login"}>
                 <Button variant="default" className="bg-blue-800 border-blue-800 hover:bg-blue-700">Signup</Button>
+              </Link>
             </>
           )}
         </div>
@@ -111,15 +121,17 @@ const Header = () => {
           user ? (
             <div className="md:hidden p-2">
               {
-                mode=="dark" ? (<Sun onClick={handleLight} size={20} className="text-white md:hidden"/>):(<Moon onClick={handleDark} size={20} className="text-white md:hidden"/>)
+                mode == "dark" ? (<Sun onClick={handleLight} size={20} className="text-white md:hidden" />) : (<Moon onClick={handleDark} size={20} className="text-white md:hidden" />)
               }
             </div>
           ) : (
             <div className="md:hidden flex items-center gap-3">
               {
-                mode=="dark" ? (<Sun onClick={handleLight} size={20} className="text-white md:hidden"/>):(<Moon onClick={handleDark} size={20} className="text-white md:hidden"/>)
+                mode == "dark" ? (<Sun onClick={handleLight} size={20} className="text-white md:hidden" />) : (<Moon onClick={handleDark} size={20} className="text-white md:hidden" />)
               }
-            <Button variant="outline" className="text-blue-800 border-blue-800 text-sm px-2 py-1 md:hidden">Login</Button>
+              <Link to={"/login"}>
+                <Button variant="outline" className="text-blue-800 border-blue-800 text-sm px-2 py-1 md:hidden">Login</Button>
+              </Link>
             </div>
           )
         }
