@@ -25,12 +25,12 @@ app.use(fileUpload({
     },
 }))
 
-app.use("/admin/product",adminRouter)
-app.use("/user",userRouter)
-app.use("/product",productRoute)
-app.use("/cart",cartRoutes)
+app.use("/api/admin/product",adminRouter)
+app.use("/api/user",userRouter)
+app.use("/api/product",productRoute)
+app.use("/api/cart",cartRoutes)
 
-app.get("/",(req,res) => {
+app.get("/api",(req,res) => {
     res.json({
         message : "Server running fine"
     })
