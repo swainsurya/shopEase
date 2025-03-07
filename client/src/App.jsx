@@ -9,6 +9,8 @@ import ProfilePage from './pages/ProfilePage'
 import OrderPage from './pages/OrderPage'
 import LoginPage from './pages/LoginPage'
 import { Toaster } from 'sonner'
+import { useUser } from './context/userContext'
+import ProtectedRoute from './lib/ProtectedRoute'
 
 const mode = localStorage.getItem("mode")
 
@@ -31,11 +33,13 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/products' element={<AllProducts />} />
           <Route path='/product/details/:id' element={<ProductDetailsPage />} />
-          <Route path='/cart' element={<CartPage />} />
-          <Route path='/check-out' element={<CheckoutPage />} />
-          <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/order' element={<OrderPage />} />
           <Route path='/login' element={<LoginPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path='/cart' element={<CartPage />} />
+            <Route path='/check-out' element={<CheckoutPage />} />
+            <Route path='/profile' element={<ProfilePage />} />
+            <Route path='/order' element={<OrderPage />} />
+          </Route>
         </Routes>
       </main>
       <Toaster

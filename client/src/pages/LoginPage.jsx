@@ -9,11 +9,14 @@ import { toast } from 'sonner'
 import { Loader2, LoaderCircle } from 'lucide-react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from '@/context/userContext'
 
 const LoginPage = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [load, setLoad] = useState(false);
     const navigate = useNavigate();
+
+    const { setUser } = useUser()
 
     const form = useForm({
         resolver: zodResolver(isLogin ? loginValidator : registerValidator),
@@ -33,6 +36,7 @@ const LoginPage = () => {
                 if(response.status){
                     navigate("/")
                     toast.success(response.message)
+                    setUser(response.user)
                 }
                 else toast.error(response.message)
             }

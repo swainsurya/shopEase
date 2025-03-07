@@ -3,10 +3,11 @@ import { Search, ShoppingCart, User, Home, Edit, Package, Settings, LogOut, Menu
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useLocation } from "react-router-dom";
+import { useUser } from "@/context/userContext";
 
 const Header = () => {
   let cartCount = 9;
-  const user = { isLoggedIn: false, name: "Surakanth" }; // Example user object
+  const { user } = useUser()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [mode , setMode] = useState("");
@@ -71,7 +72,7 @@ const Header = () => {
           </Link>
 
 
-          {user.isLoggedIn ? (
+          {user ? (
             <div className="relative" ref={dropdownRef}>
               <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center space-x-2 text-white">
                 <User size={28} />
@@ -107,8 +108,8 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {
-          user.isLoggedIn ? (
-            <div className="md:hidden">
+          user ? (
+            <div className="md:hidden p-2">
               {
                 mode=="dark" ? (<Sun onClick={handleLight} size={20} className="text-white md:hidden"/>):(<Moon onClick={handleDark} size={20} className="text-white md:hidden"/>)
               }
@@ -130,7 +131,7 @@ const Header = () => {
           <Home size={24} />
           <span className="text-xs">Home</span>
         </Link>
-        <Link to="/my-orders" className="flex flex-col items-center">
+        <Link to="/order" className="flex flex-col items-center">
           <Package size={24} />
           <span className="text-xs">Orders</span>
         </Link>
