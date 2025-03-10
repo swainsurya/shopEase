@@ -21,11 +21,11 @@ const uploadToCloudinary = async(file) => {
 }
 
 export const addProduct = async(req, res) => {
-    const imageFile = req.files.imageFile
+    // const imageFile = req.files.imageFile
     // save to cloudinary
-    const imgurl = await uploadToCloudinary(imageFile)
-    const { name, description , price } = req.body ;
-    const product = new productModel({name, description , image: imgurl , price})
+    // const imgurl = await uploadToCloudinary(imageFile)
+    const { name, description, image , price , category } = req.body ;
+    const product = new productModel({name, description , image , price , category})
     await product.save()
     res.json({
         message : "Product Added",

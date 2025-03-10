@@ -6,6 +6,8 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [getProducts , setProducts] = useState([])
+    const [isProductAdded, setIsProductAdded] = useState(false)
 
     // Fetch user data from API
     const getUser = async () => {
@@ -22,6 +24,21 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    const fetchProducts = async() => {
+        setLoading(true)
+        try {
+            const req = await axios.get("/api/product/all")
+            setProducts(req.data.products)
+            console.log(req.data.products)
+            console.log(getProducts)
+        } catch (error) {
+            console.log(error)
+        }
+        finally{
+            setLoading(false)
+        }
+    }
+
     useEffect(() => {
         getUser();
     }, []);
@@ -29,11 +46,15 @@ export const UserProvider = ({ children }) => {
     // ✅ Log user AFTER it updates
     useEffect(() => {
         setUser(user)
-        console.log(user)
-    }, [user]);
+    }, []);
+
+    // fetch all products 
+    useEffect(()=> {
+        fetchProducts();
+    },[isProductAdded,setProducts])
 
     return (
-        <UserContext.Provider value={{ loading, user, setUser }}>
+        <UserContext.Provider value={{ loading, user, setUser , getProducts, setProducts, setIsProductAdded , isProductAdded }}>
             {children}
         </UserContext.Provider>
     );
