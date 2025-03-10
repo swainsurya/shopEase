@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { AllProducts, Home, ProductDetailsPage } from './pages'
-import { Header } from './components'
-import Footer from './components/component/Footer'
-import CartPage from './pages/CartPage'
-import CheckoutPage from './pages/CheckoutPage'
-import ProfilePage from './pages/ProfilePage'
-import OrderPage from './pages/OrderPage'
-import LoginPage from './pages/LoginPage'
+import { AdminPanel, AllProducts, CartPage, CheckoutPage, Home, LoginPage, OrderPage, ProductDetailsPage, ProfilePage } from './pages'
+import { AdminOrders, AdminProducts, Footer, Header } from './components'
 import { Toaster } from 'sonner'
-import { useUser } from './context/userContext'
 import ProtectedRoute from './lib/ProtectedRoute'
 
 const mode = localStorage.getItem("mode")
@@ -27,13 +20,17 @@ const App = () => {
 
   return (
     <>
-      <Header />
+      <Header/>
       <main className={`mx-auto min-h-screen`}>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/products' element={<AllProducts />} />
           <Route path='/product/details/:id' element={<ProductDetailsPage />} />
           <Route path='/login' element={<LoginPage />} />
+          <Route path='/admin' element={<AdminPanel />}>
+            <Route path='/admin-orders' element={<AdminOrders/>} />
+            <Route path='/admin-products' element={<AdminProducts/>} />
+          </Route>
           <Route element={<ProtectedRoute />}>
             <Route path='/cart' element={<CartPage />} />
             <Route path='/check-out' element={<CheckoutPage />} />
@@ -66,7 +63,6 @@ const App = () => {
           },
         }}
       />
-
       <Footer />
     </>
   )

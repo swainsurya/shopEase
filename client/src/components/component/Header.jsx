@@ -54,7 +54,7 @@ const Header = () => {
 
   return (
     <>
-      <header className={`bg-gray-900 shadow-md flex justify-between items-center text-gray-900 sticky top-0 z-50 p-2 md:p-4 ${pathname == "/login" ? "hidden" : ""}`}>
+      <header className={`bg-gray-900 shadow-md flex justify-between items-center text-gray-900 sticky top-0 z-50 p-2 md:p-4 ${pathname == "/login" || pathname=="/admin" ? "hidden" : ""}`}>
         <Link to={"/"} className="text-sm md:text-2xl font-extrabold text-white cursor-pointer">SHOP EASE</Link>
 
         <form className="hidden md:block w-1/3 relative h-10">
