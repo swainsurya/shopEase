@@ -12,8 +12,8 @@ const ProductSection = ({ sectionName, products }) => {
         <section className="mt-8 flex flex-col">
             <h2 className="text-2xl md:text-3xl font-bold mb-8 text-blue-800 uppercase self-center">{sectionName}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {products.map((product) => (
-                    <Link to={`/product/details/${product.id}`} key={product.id} className="shadow-md border border-gray-300 rounded-md hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+                {products?.map((product) => (
+                    <Link to={`/product/details/${product._id}`} key={product._id} className="shadow-md border border-gray-300 rounded-md hover:shadow-lg transition-shadow duration-300 cursor-pointer">
                         <CardContent className="p-4 flex items-center justify-around gap-6">
                             <img src={product.image} alt={product.name} className="h-full w-1/3 object-cover rounded-md" />
                             <div className="flex flex-1 flex-col h-full justify-between items-center w-1/2">
