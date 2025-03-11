@@ -15,7 +15,7 @@ export const addToCart = async(req , res) => {
     const {productId} = req.body
     try {
         const user = await userModel.findById(userId)
-        const product = await productModel.findById(productId)
+        const product = await productModel.findById(productId.toString())
 
         const cartItem = { productId, productName: product.name, productDesc: product.description, productImage: product.image, productPrice: product.price,qty: 1 }
         // if cart already exists

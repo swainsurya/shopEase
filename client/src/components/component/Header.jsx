@@ -7,12 +7,16 @@ import { useUser } from "@/context/userContext";
 import axios from "axios";
 
 const Header = () => {
-  let cartCount = 9;
   const { user , setUser } = useUser()
+  const [cartCount, setCartCount] = useState(user?.carts.length || 0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [mode, setMode] = useState("");
   const { pathname } = useLocation()
+
+  useEffect(() => {
+    setCartCount(user?.carts.length)
+  },[user])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -73,7 +77,7 @@ const Header = () => {
           <Link to={"/cart"} className="relative">
             <ShoppingCart size={34} className="text-white" />
             {user?.carts.length > 0 && (
-              <span className="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full px-1">{user?.carts.length}</span>
+              <span className="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full px-1">{cartCount}</span>
             )}
           </Link>
 

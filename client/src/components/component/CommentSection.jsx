@@ -1,26 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { Loader2 } from "lucide-react";
+import { useUser } from "@/context/userContext";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
-export default function CommentSection() {
-  const [comments, setComments] = useState([
-    { name: "John Doe", date: "2025-02-27", text: "Great product! Totally worth it." },
-    { name: "Jane Smith", date: "2025-02-26", text: "I love the quality of this item!" },
-    { name: "Alice Brown", date: "2025-02-25", text: "Fast shipping and excellent service." },
-    { name: "Mark Johnson", date: "2025-02-24", text: "Highly recommend this to everyone!" },
-    { name: "Emily White", date: "2025-02-23", text: "Not satisfied, expected better quality." }
-  ]);
+export default function CommentSection({ productId, product }) {
+  const [comments, setComments] = useState(product?.comments || []);
   const [newComment, setNewComment] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
-  const handleCommentSubmit = (e) => {
+  // get product by id
+  const getProductById = async () => {
+    const req = await axios.get(`/api/product/product/${productId}`)
+    const item = req.data.product
+    setComments(item.comments)
+  }
+
+  useEffect(()=>{
+    getProductById()
+  },[productId,loading])
+
+
+  const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (newComment.trim()) {
-      const newEntry = {
-        name: "Guest User",
-        date: new Date().toISOString().split("T")[0],
-        text: newComment
-      };
-      setComments([...comments, newEntry]);
-      setNewComment("");
+    setLoading(true)
+    if (!newComment) {
+      toast.error("Its cannot be empty")
+      setLoading(false)
+      return;
+    }
+    try {
+      const req = await axios.post(`/api/product/comment/${productId}`, { message: newComment })
+      if(!req.data.product) {
+        // unathorized user
+        toast.error(req.data.message)
+        navigate("/login")
+      }
+      else {
+        toast.success("Comment added")
+      }
+    } catch (error) {
+      toast.error(error.response.message)
+    }
+    finally {
+      setLoading(false)
+      setNewComment('')
     }
   };
 
@@ -29,20 +56,24 @@ export default function CommentSection() {
       <h2 className="text-2xl font-bold mb-4">Comments</h2>
       <form onSubmit={handleCommentSubmit} className="mb-4">
         <textarea
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-black"
           rows="3"
           placeholder="Add a comment..."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         ></textarea>
-        <Button type="submit" className="mt-2 w-full bg-blue-700 hover:bg-blue-800 h-10">Post Comment</Button>
-      </form> 
+        <Button type="submit" className="mt-2 w-full text-white bg-blue-700 hover:bg-blue-800 h-10 flex">
+          {
+            loading ? (<Loader2 className="animate-spin" />) : "Post Comment"
+          }
+        </Button>
+      </form>
       <div>
         {comments.length > 0 ? (
           comments.map((comment, index) => (
             <div key={index} className="border-b py-2">
-              <p>{comment.text}</p>
-              <p className="text-white/80 font-semibold">{comment.name} <span className="text-sm">({comment.date})</span></p>
+              <p>{comment.message}</p>
+              <p className="font-semibold">{comment.username} <span className="text-sm">({"2025-11-03"})</span></p>
             </div>
           ))
         ) : (

@@ -72,7 +72,7 @@ const ProductDetailsPage = () => {
             <ProductSection sectionName="Similar Products" products={similarProducts} />
 
             {/* Comment Section */}
-            <CommentSection />
+            <CommentSection productId={id} product={product} />
 
             {/* Modal for Large Image */}
             {selectedImage && (

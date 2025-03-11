@@ -1,6 +1,7 @@
 import { userModel } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import {transporter} from "../lib/sendWelcomeMail.js";
 
 export const register = async (req, res) => {
     const { username, email, password } = req.body
@@ -17,6 +18,12 @@ export const register = async (req, res) => {
         await user.save()
 
         // Todo Email sent to user 
+        await transporter.sendMail({
+            from: "swainsuryakanta97@gmail.com",
+            to: email, 
+            subject: "Welcome to ShopEase",
+            html: {path: "server/controllers/welcome_design.html"}, // html body
+          });
 
         res.status(200).json({
             message: `Hello and welcome ${username} please login`,

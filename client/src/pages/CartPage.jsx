@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import products from '@/constants/products';
 import { ProductSection } from '@/components';
 import { Link } from 'react-router-dom';
+import { useUser } from '@/context/userContext';
+import axios from 'axios';
+import { toast } from 'sonner';
 
 const CartPage = () => {
-    const [cartItems, setCartItems] = useState(products.slice(0, 5).map(item => ({ ...item, quantity: 1 })));
+    const { user } = useUser()
+    const [cartItems, setCartItems] = useState(user?.carts || []);
+    const [refreshCart, setRefreshCart] = useState(false);
     const SponseredProduct = products.slice(0,8);
     const updateQuantity = (id, newQuantity) => {
         setCartItems(cartItems.map(item => 
@@ -13,8 +18,31 @@ const CartPage = () => {
         ));
     };
 
-    const removeItem = (id) => {
-        setCartItems(cartItems.filter(item => item.id !== id));
+    const getCartItms = async() => {
+        try {
+            const req = await axios.get("/api/cart")
+            const carts = req.data.userCart
+            console.log(carts)
+            setCartItems(carts)
+        } catch (error) {
+            toast.error("Server  Issue")
+        }
+    }
+
+    useEffect(()=>{
+        setCartItems(user?.carts)
+        getCartItms()
+    },[user,refreshCart])
+
+    const removeItem = async(cartId) => {
+        try {
+            await axios.post("/api/cart/remove",{cartId})
+            setCartItems(prev => prev.filter((item)=>item.cartId!=cartId))
+            setRefreshCart(prev=>!prev)
+            toast.success("Item removed")
+        } catch (error) {
+            
+        }
     };
 
     return (
@@ -23,24 +51,24 @@ const CartPage = () => {
             
             <div className="w-full flex flex-col gap-6 p-6 rounded-lg shadow-lg">
                 {cartItems.length > 0 ? (
-                    cartItems.map((item) => (
-                        <div key={item.id} className="flex flex-col md:flex-row items-center gap-6 p-4 rounded-lg shadow-md border-2 border-white">
+                    cartItems?.reverse().map((item) => (
+                        <div key={item?._id} className="flex flex-col md:flex-row items-center gap-6 p-4 rounded-lg shadow-md border-2 border-white">
                             <img 
-                                src={item.image} 
-                                alt={item.name} 
+                                src={item?.productImage} 
+                                alt={item?.name} 
                                 className="w-32 h-32 object-contain rounded-lg shadow-sm"
                             />
                             <div className="flex-1">
-                                <h2 className="text-2xl font-semibold">{item.name}</h2>
-                                <p className="text-lg">{item.description}</p>
-                                <div className="text-xl font-semibold text-green-600">${item.price}</div>
+                                <h2 className="text-2xl font-semibold">{item?.productName}</h2>
+                                <p className="text-lg">{item?.description}</p>
+                                <div className="text-xl font-semibold text-green-600">${item.productPrice}</div>
                                 <div className="flex items-center gap-2 mt-2">
-                                    <Button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2 py-1 text-lg font-medium">-</Button>
-                                    <span className="text-lg font-semibold">{item.quantity}</span>
-                                    <Button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-2 py-1 text-lg font-medium">+</Button>
+                                    <Button onClick={() => updateQuantity(item?._id, item.quantity - 1)} className="px-2 py-1 text-lg font-medium">-</Button>
+                                    <span className="text-lg font-semibold">{item?.qty}</span>
+                                    <Button onClick={() => updateQuantity(item?._id, item.quantity + 1)} className="px-2 py-1 text-lg font-medium">+</Button>
                                 </div>
                             </div>
-                            <Button onClick={() => removeItem(item.id)} className="bg-red-700 text-white shadow-md hover:bg-red-600 px-4 py-2 text-lg font-medium transition-all duration-300 hover:scale-105">
+                            <Button onClick={() => removeItem(item?._id)} className="bg-red-700 text-white shadow-md hover:bg-red-600 px-4 py-2 text-lg font-medium transition-all duration-300 hover:scale-105">
                                 Remove
                             </Button>
                         </div>
