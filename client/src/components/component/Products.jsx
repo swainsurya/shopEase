@@ -5,14 +5,19 @@ import { ArrowRight, ArrowUp } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
+import useProduct from "@/hooks/useProduct";
+import { useUser } from "@/context/userContext";
 
 const ProductSection = ({ sectionName, products }) => {
     const location = useLocation();
+    const {user} = useUser()
+    const { increaseCart } = useProduct(user)
 
     const handleAddToCart = async(productId) => {
         try {
-            await axios.post("/api/cart/add",{productId})
+            await axios.post(`/api/cart/add/${productId}`)
             toast.success("Item added")
+            increaseCart()
         } catch (error) {
             toast.error(error.response.message)
         }
@@ -38,7 +43,7 @@ const ProductSection = ({ sectionName, products }) => {
                                         <span>Qty {1}</span>
                                         <ArrowUp size={20}/>
                                     </div>
-                                    <Button onClick={e=>handleAddToCart(product?._id)} className="mt-2 bg-blue-800 text-white shadow-md hover:bg-blue-700 w-[120px] z-10">Add to Cart</Button>
+                                    <Button onClick={e=>handleAddToCart(product?._id.toString())} className="mt-2 bg-blue-800 text-white shadow-md hover:bg-blue-700 w-[120px] z-10">Add to Cart</Button>
                                 </div>
                             </div>
                         </CardContent>

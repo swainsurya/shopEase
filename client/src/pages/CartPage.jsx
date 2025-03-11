@@ -8,10 +8,10 @@ import axios from 'axios';
 import { toast } from 'sonner';
 
 const CartPage = () => {
-    const { user } = useUser()
+    const { user , getProducts } = useUser()
     const [cartItems, setCartItems] = useState(user?.carts || []);
     const [refreshCart, setRefreshCart] = useState(false);
-    const SponseredProduct = products.slice(0,8);
+    const [SponseredProduct, setSponseredProducts] = useState(getProducts?.slice(0,8) || [])
     const updateQuantity = (id, newQuantity) => {
         setCartItems(cartItems.map(item => 
             item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item

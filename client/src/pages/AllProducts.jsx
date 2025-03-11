@@ -1,9 +1,14 @@
 import { CategoriesSection, ProductSection } from '@/components'
-import React from 'react'
-import products from '@/constants/products'
-import Footer from '@/components/component/Footer'
+import { useUser } from '@/context/userContext'
+import React, { useEffect, useState } from 'react'
 
 const AllProducts = () => {
+  const { getProducts, isProductAdded } = useUser()
+  const [products, setProducts] = useState(getProducts || [])
+
+  useEffect(()=>{
+    setProducts(getProducts)
+  },[getProducts])
   return (
     <div>
         <CategoriesSection />

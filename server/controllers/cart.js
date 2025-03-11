@@ -12,10 +12,10 @@ export const getAllCarts = async(req, res) => {
 
 export const addToCart = async(req , res) => {
     const {userId} = req
-    const {productId} = req.body
+    const {productId} = req.params
     try {
         const user = await userModel.findById(userId)
-        const product = await productModel.findById(productId.toString())
+        const product = await productModel.findById(productId)
 
         const cartItem = { productId, productName: product.name, productDesc: product.description, productImage: product.image, productPrice: product.price,qty: 1 }
         // if cart already exists

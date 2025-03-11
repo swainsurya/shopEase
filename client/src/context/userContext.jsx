@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const UserContext = createContext();
 
@@ -20,7 +21,7 @@ export const UserProvider = ({ children }) => {
             setUser(null)
             console.error("Error fetching user:", error);
         } finally {
-            setLoading(false);
+            setTimeout(()=>{ setLoading(false) },1000)
         }
     };
 
@@ -33,9 +34,10 @@ export const UserProvider = ({ children }) => {
             console.log(getProducts)
         } catch (error) {
             console.log(error)
+            toast.error("Server error try again")
         }
         finally{
-            setLoading(false)
+            setTimeout(()=>{setLoading(false)},2000) ;
         }
     }
 

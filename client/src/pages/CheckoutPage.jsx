@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import products from '@/constants/products';
 import { User } from 'lucide-react';
+import { useUser } from '@/context/userContext';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutPage = () => {
-    const [cartItems, setCartItems] = useState(products.slice(0, 5).map(item => ({ ...item, quantity: 1 })));
+    const {user} = useUser()
+    const [cartItems, setCartItems] = useState(user?.carts);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [savedAddresses, setSavedAddresses] = useState([
-        { fullName: "John Doe", phone: "9876543210", address1: "Street 123", address2: "Apartment 456", city: "City", state: "State", country: "Country", pincode: "123456" },
-        { fullName: "Jane Smith", phone: "8765432109", address1: "Lane 789", address2: "Building 101", city: "Town", state: "Province", country: "Country", pincode: "654321" }
-    ]);
-    const [address, setAddress] = useState({ fullName: "", phone: "", address1: "", address2: "", city: "", state: "", country: "", pincode: "" });
+    const [savedAddresses, setSavedAddresses] = useState([user?.address]||[]);
+    const [address, setAddress] = useState(user?.address);
+    const [totalP , setTotalP] = useState(0)
+    const navigate = useNavigate()
 
     const updateQuantity = (id, newQuantity) => {
         setCartItems(cartItems.map(item => 
@@ -22,7 +25,29 @@ const CheckoutPage = () => {
         setCartItems(cartItems.filter(item => item.id !== id));
     };
 
-    const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    // Getting total price 
+    const totalPrice = () => {
+        let total = 0;
+        for(let i=0; i<cartItems?.length ; i++) {
+            let price = cartItems[i]?.productPrice*cartItems[i]?.qty
+            total += price ;
+        }
+        setTotalP(total)
+    }
+
+    // Place order 
+    const placeOrder = () => {
+        if(!user?.address) {
+            toast.error("Please add address in you profile")
+            navigate("/profile")
+            return;
+        }
+        toast.success("Order placed")
+    }
+
+    useEffect(()=>{
+        totalPrice()
+    },[user])
 
     return (
         <div className="mt-5 md:mt-10 px-4 max-w-5xl mx-auto">
@@ -45,18 +70,18 @@ const CheckoutPage = () => {
                     </thead>
                     <tbody className='overflow-hidden'>
                         {cartItems.map((item) => (
-                            <tr key={item.id} className="border-b text-xs md:text-base">
-                                <td className="p-2 md:p-3"><img src={item.image} alt={item.name} className="w-12 h-12 md:w-16 md:h-16 object-contain" /></td>
-                                <td className="p-2 md:p-3 text-gray-900 font-semibold hidden md:table-cell">{item.name}</td>
-                                <td className="p-2 md:p-3 text-green-600">${item.price}</td>
+                            <tr key={item?._id} className="border-b text-xs md:text-base">
+                                <td className="p-2 md:p-3"><img src={item?.productImage} alt={item?.productName} className="w-12 h-12 md:w-16 md:h-16 object-contain" /></td>
+                                <td className="p-2 md:p-3 text-gray-900 font-semibold hidden md:table-cell">{item?.productName}</td>
+                                <td className="p-2 md:p-3 text-green-600">${item?.productPrice}</td>
                                 <td className="p-2 md:p-3">
                                     <div className="flex items-center gap-1 md:gap-2">
                                         <Button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="bg-gray-300 text-black px-1 py-1 md:px-2 md:py-1">-</Button>
-                                        <span className="text-sm md:text-lg font-semibold">{item.quantity}</span>
+                                        <span className="text-sm md:text-lg font-semibold">{item?.qty}</span>
                                         <Button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="bg-gray-300 text-black px-1 py-1 md:px-2 md:py-1">+</Button>
                                     </div>
                                 </td>
-                                <td className="p-2 md:p-3 text-gray-900">${item.price * item.quantity}</td>
+                                <td className="p-2 md:p-3 text-gray-900">${item?.productPrice * item?.qty}</td>
                                 <td className="p-2 md:p-3">
                                     <Button onClick={() => removeItem(item.id)} className="bg-red-700 text-white px-2 py-1 md:px-3 md:py-1 hover:bg-red-600">Remove</Button>
                                 </td>
@@ -64,7 +89,7 @@ const CheckoutPage = () => {
                         ))}
                     </tbody>
                 </table>
-                <div className="text-lg md:text-xl font-semibold text-right mt-4">Total: ${totalPrice}</div>
+                <div className="text-lg md:text-xl font-semibold text-right mt-4">Total: ${totalP}</div>
             </div>
             
             <div className="mt-6 p-4 md:p-6 bg-white rounded-lg shadow-lg">
@@ -74,24 +99,29 @@ const CheckoutPage = () => {
                         <h3 className="text-lg font-semibold text-gray-700">Saved Addresses</h3>
                         <select className="w-full p-2 md:p-3 border border-gray-300 rounded-lg text-sm md:text-lg mt-2">
                             <option value="">Select a saved address</option>
-                            {savedAddresses.map((addr, index) => (
-                                <option key={index} value={addr.fullName}>{addr.fullName}, {addr.phone}, {addr.address1}, {addr.address2}, {addr.city}, {addr.state}, {addr.country}, {addr.pincode}</option>
+                            {savedAddresses?.map((addr, index) => (
+                                <option key={index} value={addr?.fullName}>{addr?.fullName}, {addr?.phone}, {addr?.address1}, {addr?.address2}, {addr?.city}, {addr?.state}, {addr?.country}, {addr?.pincode}</option>
                             ))}
                         </select>
                     </div>
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
-                    {Object.keys(address).map((key) => (
-                        <input 
-                            key={key} 
-                            className="p-2 md:p-3 border border-gray-300 rounded-lg text-sm md:text-base" 
-                            placeholder={key.replace(/([A-Z])/g, ' $1').trim()} 
-                            value={address[key]} 
-                            onChange={(e) => setAddress({...address, [key]: e.target.value})} 
-                        />
-                    ))}
+                    {
+                        address && Object.keys(address).map((key) => (
+                            key!="_id"?
+                            (
+                                <input 
+                                key={key} 
+                                className="p-2 md:p-3 border border-gray-300 rounded-lg text-sm md:text-base" 
+                                placeholder={key.replace(/([A-Z])/g, ' $1').trim()} 
+                                value={address[key]} 
+                                onChange={(e) => setAddress({...address, [key]: e.target.value})} 
+                            />
+                            ):""
+                        ))
+                    }
                 </div>
-                <Button className="mt-4 bg-blue-800 text-white shadow-md hover:bg-blue-700 px-4 py-2 md:px-6 md:py-3 text-base md:text-lg w-full">
+                <Button onClick={placeOrder} className="mt-4 bg-blue-800 text-white shadow-md hover:bg-blue-700 px-4 py-2 md:px-6 md:py-3 text-base md:text-lg w-full">
                     Place Order
                 </Button>
             </div>
