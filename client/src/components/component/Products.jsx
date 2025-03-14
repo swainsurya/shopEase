@@ -19,7 +19,7 @@ const ProductSection = ({ sectionName, products }) => {
             toast.success("Item added")
             increaseCart()
         } catch (error) {
-            toast.error(error.response.message)
+            toast.error("Something went wrong")
         }
     }
 

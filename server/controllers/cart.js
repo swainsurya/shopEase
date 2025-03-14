@@ -15,6 +15,9 @@ export const addToCart = async(req , res) => {
     const {productId} = req.params
     try {
         const user = await userModel.findById(userId)
+        if(!user) return res.json({
+            message: "Unathorized User"
+        })
         const product = await productModel.findById(productId)
 
         const cartItem = { productId, productName: product.name, productDesc: product.description, productImage: product.image, productPrice: product.price,qty: 1 }
@@ -34,7 +37,9 @@ export const addToCart = async(req , res) => {
             userCart : user.carts
         })
     } catch (error) {
-        
+        return res.json({
+            message: "UnAthorized User"
+        })
     }
 }
 
