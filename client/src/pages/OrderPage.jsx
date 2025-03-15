@@ -5,22 +5,27 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogFooter } from "@/components/ui/dialog";
 import { ProductSection } from "@/components";
 import products from "@/constants/products";
+import axios from "axios";
 
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
-
   const SponseredProducts = products.slice(0,8);
+
+  const getOrdersByUser = async() => {
+    try {
+      const req = await axios.get("/api/orders/order")
+      console.log(req.data)
+      const ordrs = req.data.orders
+      setOrders(ordrs)
+    } catch (error) {
+      setOrders([])
+    }
+  }
 
   useEffect(() => {
     // Mock order data
-    const mockOrders = [
-      { id: "ORD12345", name: "Wireless Earbuds", image: "/images/earbuds.jpg", date: "2025-02-28", status: "Delivered", total: 499 },
-      { id: "ORD67890", name: "Smart Watch", image: "/images/smartwatch.jpg", date: "2025-02-27", status: "Shipped", total: 899 },
-      { id: "ORD11223", name: "Gaming Mouse", image: "/images/mouse.jpg", date: "2025-02-26", status: "Processing", total: 1299 },
-      { id: "ORD44556", name: "Mechanical Keyboard", image: "/images/keyboard.jpg", date: "2025-02-25", status: "Cancelled", total: 699 },
-    ];
-    setOrders(mockOrders);
+    getOrdersByUser()
   }, []);
 
   const handleCancelOrder = () => {
@@ -36,14 +41,14 @@ const OrderPage = () => {
       <div className="w-full space-y-6">
         {orders.length > 0 ? (
           orders.map((order) => (
-            <Card key={order.id} className="rounded-lg shadow-md p-6 border-white flex flex-col md:flex-row items-center w-full">
+            <Card key={order._id} className="rounded-lg shadow-md p-6 border-white flex flex-col md:flex-row items-center w-full">
               <CardContent className="w-full flex flex-col md:flex-row items-center gap-6">
-                <img src={order.image} alt={order.name} className="w-24 h-24 object-cover rounded-lg border" />
+                <img src={order.productImage} alt={order.productName} className="w-24 h-24 object-cover rounded-lg border" />
                 <div className="flex-1 text-center md:text-left">
-                  <p className="text-xl font-semibold">{order.name}</p>
-                  <p className="text-sm">Order ID: {order.id}</p>
-                  <p className="text-sm">Date: {order.date}</p>
-                  <p className="mt-2 font-medium text-lg">Total: ${order.total}</p>
+                  <p className="text-xl font-semibold">{order.productName}</p>
+                  <p className="text-sm">Order ID: {order._id}</p>
+                  <p className="text-sm">Date: {order.createdAt.split("T")[0]}</p>
+                  <p className="mt-2 font-medium text-lg">Total: ${order.price}</p>
                 </div>
                 <div className="flex flex-col items-center md:items-end">
                   <Badge

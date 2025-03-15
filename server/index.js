@@ -7,6 +7,7 @@ import fileUpload from "express-fileupload"
 import userRouter from "./routes/user.routes.js"
 import productRoute from "./routes/product.routes.js"
 import cartRoutes from "./routes/cart.route.js"
+import orderRouter from "./routes/orders.route.js"
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -29,6 +30,7 @@ app.use("/api/admin/product",adminRouter)
 app.use("/api/user",userRouter)
 app.use("/api/product",productRoute)
 app.use("/api/cart",cartRoutes)
+app.use("/api/orders",orderRouter)
 
 app.get("/api",(req,res) => {
     res.json({

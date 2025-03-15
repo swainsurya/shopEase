@@ -21,13 +21,20 @@ const addressSchema = new mongoose.Schema({
     pincode : { type:String }
 })
 
+const orderSchema = new mongoose.Schema({
+    productName: {type: String, required: true},
+    productImage: {type: String, required: true},
+    price: {type: Number, required: true},
+    status: {type: String, enum:["Pending", "Processing", "Shipped", "Delivered", "Cancelled"], default: "Pending"}
+},{timestamps: true})
+
 const userSchema = new mongoose.Schema({
     username : { type : String, required : true },
     email : { type : String, required : true },
     password : { type : String , required : true },
     address : addressSchema,
     carts : [cartSchema],
-    orders : []
+    orders : [orderSchema]
 },{ timestamps : true })
 
 export const userModel = mongoose.model("users",userSchema)

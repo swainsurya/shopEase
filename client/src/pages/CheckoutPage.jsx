@@ -44,7 +44,7 @@ const CheckoutPage = () => {
     }
 
     // Place order 
-    const placeOrder = () => {
+    const placeOrder = async() => {
         if(!user?.address) {
             toast.error("Please add address in you profile")
             navigate("/profile")
@@ -55,7 +55,12 @@ const CheckoutPage = () => {
             navigate("/")
             return;
         }
-        toast.success("Order placed")
+            cartItems.map(async(item)=> {
+                const req = await axios.post("/api/orders/add",{productName: item.productName, productImage: item.productImage, price: item.productPrice})
+                console.log(req)
+                if(req) toast.success("Order Confirmed")
+            })
+            console.log(user)
     }
 
     useEffect(()=>{
