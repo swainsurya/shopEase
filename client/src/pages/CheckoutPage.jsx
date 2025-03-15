@@ -5,9 +5,10 @@ import { User } from 'lucide-react';
 import { useUser } from '@/context/userContext';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const CheckoutPage = () => {
-    const {user} = useUser()
+    const {user, setLoading} = useUser()
     const [cartItems, setCartItems] = useState(user?.carts);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [savedAddresses, setSavedAddresses] = useState([user?.address]||[]);
@@ -21,8 +22,15 @@ const CheckoutPage = () => {
         ));
     };
 
-    const removeItem = (id) => {
-        setCartItems(cartItems.filter(item => item.id !== id));
+    const removeItem = async(id) => {
+        try {
+            await axios.post("/api/cart/remove",{cartId: id})
+            setCartItems([])
+            setCartItems(prev=> prev.filter((item)=> item._id != id))
+            toast.success("Item removed")
+        } catch (error) {
+            toast.error("Server issue")
+        }
     };
 
     // Getting total price 
@@ -32,7 +40,7 @@ const CheckoutPage = () => {
             let price = cartItems[i]?.productPrice*cartItems[i]?.qty
             total += price ;
         }
-        setTotalP(total)
+        setTotalP(Math.round(total))
     }
 
     // Place order 
@@ -40,6 +48,11 @@ const CheckoutPage = () => {
         if(!user?.address) {
             toast.error("Please add address in you profile")
             navigate("/profile")
+            return;
+        }
+        if(cartItems.length <= 0) {
+            toast.error("There are no items please add items to cart")
+            navigate("/")
             return;
         }
         toast.success("Order placed")
@@ -83,7 +96,7 @@ const CheckoutPage = () => {
                                 </td>
                                 <td className="p-2 md:p-3">${item?.productPrice * item?.qty}</td>
                                 <td className="p-2 md:p-3">
-                                    <Button onClick={() => removeItem(item.id)} className="bg-red-700 px-2 py-1 md:px-3 md:py-1 hover:bg-red-600 dark:text-white">Remove</Button>
+                                    <Button onClick={() => removeItem(item?._id)} className="bg-red-700 px-2 py-1 md:px-3 md:py-1 hover:bg-red-600 dark:text-white">Remove</Button>
                                 </td>
                             </tr>
                         ))}
@@ -91,6 +104,12 @@ const CheckoutPage = () => {
                 </table>
                 <div className="text-lg md:text-xl font-semibold text-right mt-4">Total: ${totalP}</div>
             </div>
+
+            {cartItems.length ==0 && (
+                <div>
+                    No items found
+                </div>
+            )}
             
             <div className="mt-6 p-4 md:p-6 rounded-lg shadow-lg">
                 <h2 className="text-xl md:text-2xl font-semibold mb-4">Shipping Address</h2>

@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 import { useUser } from "@/context/userContext";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
 
 export default function CommentSection({ productId, product }) {
   const [comments, setComments] = useState(product?.comments || []);
@@ -73,7 +74,7 @@ export default function CommentSection({ productId, product }) {
           comments.map((comment, index) => (
             <div key={index} className="border-b py-2">
               <p>{comment.message}</p>
-              <p className="font-semibold">{comment.username} <span className="text-sm">({"2025-11-03"})</span></p>
+              <p className="font-semibold">{comment.username} <span className="text-sm text-gray-300">({ formatDistanceToNow(new Date(comment.createdAt), {addSuffix: true}) })</span></p>
             </div>
           ))
         ) : (

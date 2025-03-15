@@ -9,6 +9,7 @@ const AllProducts = () => {
   useEffect(()=>{
     setProducts(getProducts)
   },[getProducts])
+  
   return (
     <div>
         <CategoriesSection />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { AdminPanel, AllProducts, CartPage, CheckoutPage, Home, LoginPage, OrderPage, ProductDetailsPage, ProfilePage } from './pages'
+import { AdminPanel, AllProducts, CartPage, CheckoutPage, Home, LoginPage, OrderPage, ProductDetailsPage, ProfilePage, SearchPage } from './pages'
 import { AdminOrders, AdminProducts, Footer, Header } from './components'
 import { Toaster } from 'sonner'
 import ProtectedRoute from './lib/ProtectedRoute'
@@ -31,12 +31,16 @@ const App = () => {
             <Route path='/admin-orders' element={<AdminOrders/>} />
             <Route path='/admin-products' element={<AdminProducts/>} />
           </Route>
+          {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path='/cart' element={<CartPage />} />
             <Route path='/check-out' element={<CheckoutPage />} />
             <Route path='/profile' element={<ProfilePage />} />
             <Route path='/order' element={<OrderPage />} />
           </Route>
+
+          {/* Search Page */}
+          <Route path='/search/q/:term' element={<SearchPage />} />
         </Routes>
       </main>
       <Toaster

@@ -54,7 +54,7 @@ const ProductDetailsPage = () => {
                     <h1 className="text-3xl md:text-5xl font-bold">{product?.name}</h1>
                     <p className="text-lg md:text-xl leading-relaxed">{product?.description}</p>
                     <div className="text-2xl md:text-3xl font-semibold">
-                        Price: <span className="text-green-600">${product?.price}</span> 
+                        Price: <span className="text-green-600 mr-4">${product?.price}</span> 
                         <span className="text-red-600 line-through">${(product?.price * 1.21).toFixed(2)}</span>
                     </div>
                     <div className="flex flex-wrap gap-4">

@@ -31,3 +31,21 @@ export const commentProduct = async(req, res) => {
         console.log(error)
     }
 }
+
+// get products by search term 
+export const getProductBySearch = async(req, res) => {
+    const {term} = req.body;
+    try {
+        const products = await productModel.find({$text:{$search: term}})
+        if(!products) return res.json({
+            products: []
+        })
+        return res.json({
+            products
+        })
+    } catch (error) {
+        return res.status(400).json({
+            message: "Server issue"
+        })
+    }
+}

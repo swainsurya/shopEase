@@ -7,5 +7,6 @@ import LoginPage from "./LoginPage";
 import OrderPage from "./OrderPage";
 import CheckoutPage from "./CheckoutPage";
 import ProfilePage from "./ProfilePage";
+import SearchPage from "./SearchPage";
 
-export {Home, AllProducts, ProductDetailsPage, CartPage, AdminPanel, LoginPage, OrderPage,CheckoutPage,ProfilePage}
+export {Home, AllProducts, ProductDetailsPage, CartPage, AdminPanel, LoginPage, OrderPage,CheckoutPage,ProfilePage, SearchPage}

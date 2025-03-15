@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 // Sample banners data
 const sampleBanners = [
@@ -51,7 +52,9 @@ const HeroSection = () => {
       <div className="relative z-10">
         <h2 className=" text-2xl md:text-4xl font-bold">{banners[currentBanner].text}</h2>
         <p className="mt-2 text-lg md:text-xl">{banners[currentBanner].subtext}</p>
-        <Button className="mt-10 md:mt-4 bg-white text-blue-800 border border-white shadow-md hover:bg-blue-800 hover:text-white">Shop Now</Button>
+        <Link to={"/products"} className="mt-10 md:mt-20 bg-white text-blue-800 border border-white shadow-md hover:bg-blue-800 hover:text-white p-2 rounded-md">
+          <Button className="hover:bg-transparent hover:text-white bg-transparent text-black">SHOP NOW</Button>
+        </Link>
       </div>
       
       {/* Next Button */}

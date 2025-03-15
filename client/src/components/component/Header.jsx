@@ -2,18 +2,21 @@ import React, { useState, useEffect, useRef } from "react";
 import { Search, ShoppingCart, User, Home, Edit, Package, Settings, LogOut, Menu, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "@/context/userContext";
 import axios from "axios";
 import useProduct from "@/hooks/useProduct";
 
 const Header = () => {
-  const { user , setUser } = useUser()
-  const {cart , increaseCart , cartCount } = useProduct(user)
+  const { user, setUser } = useUser()
+  const { cart, increaseCart, cartCount } = useProduct(user)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [mode, setMode] = useState("");
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -44,9 +47,17 @@ const Header = () => {
     document.getElementsByTagName("main")[0].classList.remove("dark")
   }
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     await axios.post("/api/user/logout")
     setUser(null)
+  }
+
+  const handleSearch = async(e) => {
+    if(!searchTerm) return;
+    else {
+      navigate(`/search/q/${searchTerm}`)
+      setSearchTerm("")
+    }
   }
 
   useEffect(() => {
@@ -55,15 +66,22 @@ const Header = () => {
 
   return (
     <>
-      <header className={`bg-gray-900 shadow-md flex justify-between items-center text-gray-900 sticky top-0 z-50 p-2 md:p-4 ${pathname == "/login" || pathname=="/admin" ? "hidden" : ""}`}>
+      <header className={`bg-gray-900 shadow-md flex justify-between items-center text-gray-900 sticky top-0 z-50 p-2 md:p-4 ${pathname == "/login" || pathname == "/admin" ? "hidden" : ""}`}>
         <Link to={"/"} className="text-sm md:text-2xl font-extrabold text-white cursor-pointer">SHOP EASE</Link>
 
-        <form className="hidden md:block w-1/3 relative h-10">
-          <Input type="text" placeholder="Search products..." className="w-full text-black border-gray-300 bg-white h-full" />
-          <span className="bg-yellow-500 hover:bg-yellow-600 absolute top-0 right-0 p-2 rounded-r-md cursor-pointer">
+        {/* Search Form */}
+        <div className="hidden md:block w-1/3 relative h-10">
+          <Input
+            type="text"
+            placeholder="Search products..."
+            className="w-full text-black border-gray-300 bg-white h-full"
+            value={searchTerm}
+            onChange={e=>setSearchTerm(e.target.value)}
+          />
+          <button onClick={handleSearch} className="bg-yellow-500 hover:bg-yellow-600 absolute top-0 right-0 p-2 rounded-r-md cursor-pointer">
             <Search />
-          </span>
-        </form>
+          </button>
+        </div>
 
         <div className="space-x-4 hidden md:flex items-center">
           {

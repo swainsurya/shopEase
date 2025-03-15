@@ -4,7 +4,7 @@ const commentSchema = new mongoose.Schema({
     message : { type : String },
     user : { type : mongoose.Schema.Types.ObjectId, ref: "users"  },
     username : {type : String}
-})
+},{timestamps:true})
 
 const productSchema = new mongoose.Schema({
     name : { type : String },
@@ -14,5 +14,7 @@ const productSchema = new mongoose.Schema({
     category: {type:String},
     comments : [commentSchema]
 },{ timestamps : true })
+
+productSchema.index({name: "text", description: "text"})
 
 export const productModel = mongoose.model("products", productSchema) ;
