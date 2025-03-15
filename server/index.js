@@ -1,5 +1,5 @@
 import express from "express"
-import "dotenv/config"
+import path from "path"
 import cookieParser from "cookie-parser"
 import { connectDB } from "./lib/connectDB.js"
 import adminRouter from "./routes/admin.routes.js"
@@ -8,7 +8,7 @@ import userRouter from "./routes/user.routes.js"
 import productRoute from "./routes/product.routes.js"
 import cartRoutes from "./routes/cart.route.js"
 import orderRouter from "./routes/orders.route.js"
-import path from "path"
+import "dotenv/config"
 
 const app = express()
 const port = process.env.PORT || 5000
