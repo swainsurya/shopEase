@@ -17,7 +17,7 @@ const OrderPage = () => {
       const req = await axios.get("/api/orders/order")
       console.log(req.data)
       const ordrs = req.data.orders
-      setOrders(ordrs)
+      setOrders(ordrs.reverse())
     } catch (error) {
       setOrders([])
     }
