@@ -21,7 +21,7 @@ const CartPage = () => {
     const getCartItms = async() => {
         try {
             const req = await axios.get("https://shopease-server-f7ke.onrender.com/api/cart")
-            const carts = req.data.userCart
+            const carts = req?.data
             console.log(carts)
             setCartItems(carts)
         } catch (error) {

@@ -20,9 +20,9 @@ export const UserProvider = ({ children }) => {
                 {token},
                 { withCredentials: true }
             );
-            
-            setUser(data.user);
-            console.log(user)
+            const usr = data.user
+            setUser(usr);
+            console.log(usr)
             console.log(token)
             if(!data) setUser(null)
         } catch (error) {
@@ -30,6 +30,7 @@ export const UserProvider = ({ children }) => {
             console.error("Error fetching user:", error);
         } finally {
             setTimeout(()=>{ setLoading(false) },1000)
+            console.log(user)
         }
     };
 
