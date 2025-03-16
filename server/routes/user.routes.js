@@ -9,7 +9,7 @@ userRouter.post("/register",register)
 userRouter.post("/login",login)
 userRouter.post("/logout",logout)
 
-userRouter.get("/user",getVerifiedUser,getUser)
+userRouter.post("/user",getVerifiedUser,getUser)
 
 // profile fetching TODO
 userRouter.post("/address",getVerifiedUser,setAddress)
