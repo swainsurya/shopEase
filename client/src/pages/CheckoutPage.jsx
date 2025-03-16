@@ -6,6 +6,7 @@ import { useUser } from '@/context/userContext';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { promise } from 'zod';
 
 const CheckoutPage = () => {
     const {user, setLoading} = useUser()
@@ -55,13 +56,28 @@ const CheckoutPage = () => {
             navigate("/")
             return;
         }
-            cartItems.map(async(item)=> {
-                const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/orders/add",{productName: item.productName, productImage: item.productImage, price: item.productPrice})
-                console.log(req)
-                if(req) toast.success("Order Confirmed")
-            })
-            console.log(user)
-    }
+            // cartItems.map(async(item)=> {
+            //     const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/orders/add",{productName: item.productName, productImage: item.productImage, price: item.productPrice})
+            //     console.log(req)
+            //     if(req) toast.success("Order Confirmed")
+            // })
+            // console.log(user)    }
+
+
+            // Payment by stripe 
+            // await axios.post("https://shopease-server-f7ke.onrender.com/api/check-out/")
+            const products = [];
+            await Promise.all(
+                cartItems.map(item => {
+                    products.push({
+                        name: item.productName,
+                        price: Math.floor(item.productPrice),
+                        quantity: item.qty
+                    })
+                })
+            )
+            await axios.post("https://shopease-server-f7ke.onrender.com/api/check-out/create-checkout-session",{products})
+}
 
     useEffect(()=>{
         totalPrice()
