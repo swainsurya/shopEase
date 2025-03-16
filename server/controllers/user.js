@@ -1,7 +1,7 @@
 import { userModel } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import {transporter} from "../lib/sendWelcomeMail.js";
+import { transporter } from "../lib/sendWelcomeMail.js";
 
 export const register = async (req, res) => {
     const { username, email, password } = req.body
@@ -20,10 +20,60 @@ export const register = async (req, res) => {
         // Todo Email sent to user 
         await transporter.sendMail({
             from: "swainsuryakanta97@gmail.com",
-            to: email, 
+            to: email,
             subject: "Welcome to ShopEase",
-            html: {path: "server/controllers/welcome_design.html"}, // html body
-          });
+            html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to ShopEase Mail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .email-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+        }
+        .logo {
+            width: 120px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="email-container">
+        <h4 class="text-2xl font-bold text-blue-700">SHOPEASE</h4>
+        <h2>Welcome to ShopEase Mail!</h2>
+        <p>Thank you for joining ShopEase! Stay updated with your orders, exclusive offers, and more.</p>
+        <a href="#" class="button">Explore ShopEase</a>
+    </div>
+
+</body>
+</html>
+`, 
+        });
 
         res.status(200).json({
             message: `Hello and welcome ${username} please login`,
@@ -101,14 +151,14 @@ export const setAddress = async (req, res) => {
         await user.save()
         res.json({
             message: "Profile Updated",
-            status : true,
+            status: true,
             user
         })
     } catch (error) {
         console.log(error)
         res.json({
             message: "Something went wrong try again",
-            status : false,
+            status: false,
             error
         })
     }

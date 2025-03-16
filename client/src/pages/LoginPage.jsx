@@ -27,37 +27,46 @@ const LoginPage = () => {
     });
 
     const handleSubmit = async (values) => {
-        setLoad(true)
-        console.log(values)
+        setLoad(true);
+        console.log(values);
         try {
             if (isLogin) {
                 // LOGIN API HERE
-                const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/user/login", values)
-                const response = req.data
-                if (response.status) {
-                    navigate("/")
-                    toast.success(response.message)
-                    setUser(response.user)
-                }
-                else toast.error(response.message)
+                const req = await axios.post(
+                    "https://shopease-server-f7ke.onrender.com/api/user/login", // ✅ Correct
+                    values,
+                    { withCredentials: true }
+                );
+            } else {
+                // REGISTER API HERE (Fix the endpoint)
+                const req = await axios.post(
+                    "https://shopease-server-f7ke.onrender.com/api/user/register", // 🔴 FIXED ENDPOINT
+                    values,
+                    { withCredentials: true }
+                );
             }
-            else {
-                // REGISTER API HERE 
-                const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/user/register", values)
-                const response = req.data
-                if (response.status) {
-                    setIsLogin(true)
-                    toast.success(response.message)
+    
+            const response = req.data;
+            if (response.status) {
+                if (isLogin) {
+                    navigate("/");
+                    toast.success(response.message);
+                    setUser(response.user);
+                } else {
+                    setIsLogin(true);
+                    toast.success(response.message);
                 }
-                else toast.error(response.message)
+            } else {
+                toast.error(response.message);
             }
         } catch (error) {
-            toast.error("Internal server error")
-        }
-        finally {
-            setLoad(false)
+            console.error(error); // Log error for debugging
+            toast.error(error.response?.data?.message || "Internal server error");
+        } finally {
+            setLoad(false);
         }
     };
+    
 
     return (
         <div className="flex flex-col md:flex-row items-center justify-center w-full h-screen bg-[#0D1B2A] relative">
