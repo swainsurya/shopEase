@@ -30,11 +30,11 @@ const LoginPage = () => {
         setLoad(true)
         console.log(values)
         try {
-            if(isLogin) {
+            if (isLogin) {
                 // LOGIN API HERE
-                const req = await axios.post("/api/user/login",values)
+                const req = await axios.post("https://shopease-ov8o.onrender.com/api/user/login", values)
                 const response = req.data
-                if(response.status){
+                if (response.status) {
                     navigate("/")
                     toast.success(response.message)
                     setUser(response.user)
@@ -43,9 +43,9 @@ const LoginPage = () => {
             }
             else {
                 // REGISTER API HERE 
-                const req = await axios.post("/api/user/register",values)
+                const req = await axios.post("/api/user/register", values)
                 const response = req.data
-                if(response.status){
+                if (response.status) {
                     setIsLogin(true)
                     toast.success(response.message)
                 }
@@ -54,7 +54,7 @@ const LoginPage = () => {
         } catch (error) {
             toast.error("Internal server error")
         }
-        finally{
+        finally {
             setLoad(false)
         }
     };
@@ -127,7 +127,7 @@ const LoginPage = () => {
                             />
 
                             <Button type="submit" className="w-full bg-[#E0A800] text-gray-900 font-semibold py-3 rounded-xl text-lg shadow-md hover:bg-[#FFC107]">
-                                { load ? (<LoaderCircle className='animate-spin'/>) : isLogin ? "Login" : "Register"}
+                                {load ? (<LoaderCircle className='animate-spin' />) : isLogin ? "Login" : "Register"}
                             </Button>
 
                             <p className="text-center text-white text-lg">
