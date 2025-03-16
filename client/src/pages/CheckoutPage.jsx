@@ -6,7 +6,6 @@ import { useUser } from '@/context/userContext';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { promise } from 'zod';
 
 const CheckoutPage = () => {
     const {user, setLoading} = useUser()
