@@ -43,7 +43,7 @@ const LoginPage = () => {
             }
             else {
                 // REGISTER API HERE 
-                const req = await axios.post("/api/user/register", values)
+                const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/user/register", values)
                 const response = req.data
                 if (response.status) {
                     setIsLogin(true)

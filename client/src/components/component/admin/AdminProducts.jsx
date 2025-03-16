@@ -24,7 +24,7 @@ const AdminProducts = () => {
       return;
     }
     try {
-      const req = await axios.post("/api/admin/product/add",newProduct)
+      const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/admin/product/add",newProduct)
       const item = req.data.product
       setProducts([...getProducts,item])
       console.log(req.data.product)
@@ -42,7 +42,7 @@ const AdminProducts = () => {
   const deleteProduct = async(id) => {
     if(!confirm("Are you sure ?")) return
     try {
-      const req = await axios.delete(`/api/admin/product/del/${id}`)
+      const req = await axios.delete(`https://shopease-server-f7ke.onrender.com/api/admin/product/del/${id}`)
       toast.success("Deleted")
       setIsProductAdded(prev=>!prev)
     } catch (error) {

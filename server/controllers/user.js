@@ -40,6 +40,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
+    console.log("Im here from login")
     try {
         const user = await userModel.findOne({ email })
         if (!user) {
@@ -70,7 +71,7 @@ export const login = async (req, res) => {
         })
 
     } catch (error) {
-
+        console.log(error)
     }
 }
 
