@@ -137,6 +137,7 @@ export const logout = async (req, res) => {
 
 export const getUser = async (req, res) => {
     const { userId } = req
+    console.log(userId)
     const user = await userModel.findById(userId)
     res.json({ user })
 }

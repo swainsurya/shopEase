@@ -29,24 +29,27 @@ const LoginPage = () => {
     const handleSubmit = async (values) => {
         setLoad(true);
         console.log(values);
+    
         try {
+            let req;
+            
             if (isLogin) {
-                // LOGIN API HERE
-                const req = await axios.post(
-                    "https://shopease-server-f7ke.onrender.com/api/user/login", // ✅ Correct
+                // ✅ LOGIN API
+                req = await axios.post(
+                    "https://shopease-server-f7ke.onrender.com/api/user/login",
                     values,
                     { withCredentials: true }
                 );
             } else {
-                // REGISTER API HERE (Fix the endpoint)
-                const req = await axios.post(
-                    "https://shopease-server-f7ke.onrender.com/api/user/register", // 🔴 FIXED ENDPOINT
+                req = await axios.post(
+                    "https://shopease-server-f7ke.onrender.com/api/user/register",
                     values,
                     { withCredentials: true }
                 );
             }
     
             const response = req.data;
+    
             if (response.status) {
                 if (isLogin) {
                     navigate("/");
@@ -60,12 +63,13 @@ const LoginPage = () => {
                 toast.error(response.message);
             }
         } catch (error) {
-            console.error(error); // Log error for debugging
+            console.error(error); // ✅ Log error for debugging
             toast.error(error.response?.data?.message || "Internal server error");
         } finally {
             setLoad(false);
         }
     };
+    
     
 
     return (
