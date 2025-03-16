@@ -56,12 +56,12 @@ const CheckoutPage = () => {
             navigate("/")
             return;
         }
-            // cartItems.map(async(item)=> {
-            //     const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/orders/add",{productName: item.productName, productImage: item.productImage, price: item.productPrice})
-            //     console.log(req)
-            //     if(req) toast.success("Order Confirmed")
-            // })
-            // console.log(user)    }
+            cartItems.map(async(item)=> {
+                const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/orders/add",{productName: item.productName, productImage: item.productImage, price: item.productPrice})
+                console.log(req)
+                if(req) toast.success("Order Confirmed")
+            })
+            console.log(user)   
 
 
             // Payment by stripe 
