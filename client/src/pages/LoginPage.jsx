@@ -28,6 +28,7 @@ const LoginPage = () => {
 
     const handleSubmit = async (values) => {
         setLoad(true)
+        console.log(values)
         try {
             if(isLogin) {
                 // LOGIN API HERE

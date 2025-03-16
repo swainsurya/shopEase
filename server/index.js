@@ -8,6 +8,7 @@ import userRouter from "./routes/user.routes.js"
 import productRoute from "./routes/product.routes.js"
 import cartRoutes from "./routes/cart.route.js"
 import orderRouter from "./routes/orders.route.js"
+import cors from "cors"
 import "dotenv/config"
 
 const app = express()
@@ -16,6 +17,7 @@ const __dirname = path.resolve()
 
 connectDB()
 app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 
 

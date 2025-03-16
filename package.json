@@ -1,30 +1,30 @@
 {
   "name": "ecommerce-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "A full-stack eCommerce application using MERN stack.",
   "main": "server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/index.js",
-    "dev" : "node server/index.js",
-    "build" : "npm install && npm install --prefix client && npm run build --prefix client"
+    "dev": "nodemon server/index.js",
+    "start": "node server/index.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/swainsurya/shopEase.git"
+    "url": "https://github.com/swainsurya/shopEase.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["ecommerce", "mern", "nodejs", "react"],
+  "author": "Surakanth Swain",
   "license": "ISC",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/swainsurya/shopEase/issues"
   },
   "homepage": "https://github.com/swainsurya/shopEase#readme",
+  "type": "module",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.5.1",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-fileupload": "^1.5.1",
@@ -32,7 +32,6 @@
     "mongodb": "^6.14.2",
     "mongoose": "^8.11.0",
     "nodemailer": "^6.10.0",
-    "nodemon": "^3.1.9",
-    "path": "^0.12.7"
+    "nodemon": "^3.1.9"
   }
 }
