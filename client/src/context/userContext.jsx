@@ -12,9 +12,14 @@ export const UserProvider = ({ children }) => {
 
     // Fetch user data from API
     const getUser = async () => {
+        const token = localStorage.getItem("token_user");
         setLoading(true);
         try {
-            const { data } = await axios.get("https://shopease-server-f7ke.onrender.com/api/user/user");
+            const { data } = await axios.get(
+                "https://shopease-server-f7ke.onrender.com/api/user/user",
+                { withCredentials: true }
+            );
+            
             setUser(data.user);
             if(!data) setUser(null)
         } catch (error) {

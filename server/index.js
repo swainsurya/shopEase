@@ -17,9 +17,7 @@ const __dirname = path.resolve()
 
 connectDB()
 app.use(cors({
-    origin: (origin, callback) => {
-        callback(null, origin || "*"); // Allow all origins dynamically
-    },
+    origin: "http://localhost:3000",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]

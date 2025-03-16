@@ -54,6 +54,7 @@ const LoginPage = () => {
                 if (isLogin) {
                     navigate("/");
                     toast.success(response.message);
+                    localStorage.setItem("token_user",response.token)
                     setUser(response.user);
                 } else {
                     setIsLogin(true);
