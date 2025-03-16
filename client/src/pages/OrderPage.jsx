@@ -11,10 +11,11 @@ const OrderPage = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const SponseredProducts = products.slice(0,8);
+  const token = localStorage.getItem("token_user");
 
   const getOrdersByUser = async() => {
     try {
-      const req = await axios.get("https://shopease-server-f7ke.onrender.com/api/orders/order")
+      const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/orders/order",{token})
       console.log(req.data)
       const ordrs = req.data.orders
       setOrders(ordrs.reverse())

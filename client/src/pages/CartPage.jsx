@@ -22,7 +22,7 @@ const CartPage = () => {
     const getCartItms = async() => {
         try {
             const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/cart",{token})
-            const carts = req?.data
+            const carts = req?.data.userCart
             console.log(carts)
             setCartItems(carts)
         } catch (error) {

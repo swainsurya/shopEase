@@ -15,7 +15,7 @@ export default function CommentSection({ productId, product }) {
 
   // get product by id
   const getProductById = async () => {
-    const req = await axios.get(`/api/product/product/${productId}`)
+    const req = await axios.get(`https://shopease-server-f7ke.onrender.com/api/product/product/${productId}`)
     const item = req.data.product
     setComments(item.comments)
   }
@@ -34,7 +34,7 @@ export default function CommentSection({ productId, product }) {
       return;
     }
     try {
-      const req = await axios.post(`/api/product/comment/${productId}`, { message: newComment })
+      const req = await axios.post(`https://shopease-server-f7ke.onrender.com/api/product/comment/${productId}`, { message: newComment })
       if(!req.data.product) {
         // unathorized user
         toast.error(req.data.message)

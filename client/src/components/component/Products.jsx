@@ -12,10 +12,11 @@ const ProductSection = ({ sectionName, products }) => {
     const location = useLocation();
     const {user} = useUser()
     const { increaseCart } = useProduct(user)
+    const token = localStorage.getItem("token_user")
 
     const handleAddToCart = async(productId) => {
         try {
-            await axios.post(`/api/cart/add/${productId}`)
+            await axios.post(`https://shopease-server-f7ke.onrender.com/api/cart/add/${productId}`)
             toast.success("Item added")
             increaseCart()
         } catch (error) {
