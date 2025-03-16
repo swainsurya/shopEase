@@ -15,8 +15,9 @@ export const UserProvider = ({ children }) => {
         const token = localStorage.getItem("token_user");
         setLoading(true);
         try {
-            const { data } = await axios.get(
+            const { data } = await axios.post(
                 "https://shopease-server-f7ke.onrender.com/api/user/user",
+                {token},
                 { withCredentials: true }
             );
             

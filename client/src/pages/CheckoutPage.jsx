@@ -56,7 +56,7 @@ const CheckoutPage = () => {
             return;
         }
             cartItems.map(async(item)=> {
-                const req = await axios.post("/api/orders/add",{productName: item.productName, productImage: item.productImage, price: item.productPrice})
+                const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/orders/add",{productName: item.productName, productImage: item.productImage, price: item.productPrice})
                 console.log(req)
                 if(req) toast.success("Order Confirmed")
             })

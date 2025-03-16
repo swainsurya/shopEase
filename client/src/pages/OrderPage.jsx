@@ -14,7 +14,7 @@ const OrderPage = () => {
 
   const getOrdersByUser = async() => {
     try {
-      const req = await axios.get("/api/orders/order")
+      const req = await axios.get("https://shopease-server-f7ke.onrender.com/api/orders/order")
       console.log(req.data)
       const ordrs = req.data.orders
       setOrders(ordrs.reverse())

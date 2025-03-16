@@ -18,7 +18,7 @@ const ProfilePage = () => {
     const handleSave = async () => {
         setload(true)
         try {
-            const req = await axios.post("/api/user/address", profile)
+            const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/user/address", profile)
             if (req.data.status) {
                 toast.success(req.data.message)
                 setUser(req.data.user)
@@ -35,8 +35,9 @@ const ProfilePage = () => {
     }
 
     const handleLogout = async () => {
-        await axios.post("/api/user/logout")
+        await axios.post("https://shopease-server-f7ke.onrender.com/api/user/logout")
         setUser(null)
+        localStorage.removeItem("token_user")
     };
 
     return (

@@ -15,7 +15,7 @@ const ProductDetailsPage = () => {
 
     // get product by id 
     const getProductById = async() => {
-        const req = await axios.get(`/api/product/product/${id}`)
+        const req = await axios.get(`https://shopease-server-f7ke.onrender.com/api/product/product/${id}`)
         const item = req.data.product
         setProduct(item)
     }

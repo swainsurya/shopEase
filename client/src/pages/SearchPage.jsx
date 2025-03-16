@@ -11,7 +11,7 @@ const SearchPage = () => {
     const searchFor = async() => {
         console.log(term)
         try {
-            const req = await axios.post(`/api/product/product/q`,{term})
+            const req = await axios.post(`https://shopease-server-f7ke.onrender.com/api/product/product/q`,{term})
             console.log(req.data)
             const items = req.data.products;
             setSearchedProducts(items)

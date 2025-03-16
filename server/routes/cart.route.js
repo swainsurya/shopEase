@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { verifyUser } from "../middlewares/verifyUser.js";
+import { getVerifiedUser, verifyUser } from "../middlewares/verifyUser.js";
 import { addToCart, getAllCarts, removeItemById } from "../controllers/cart.js";
 
 const cartRoutes = Router();
 
-cartRoutes.get("/",verifyUser,getAllCarts)
-cartRoutes.post("/add/:productId",verifyUser,addToCart)
-cartRoutes.post("/remove",verifyUser,removeItemById)
+cartRoutes.get("/",getVerifiedUser,getAllCarts)
+cartRoutes.post("/add/:productId",getVerifiedUser,addToCart)
+cartRoutes.post("/remove",getVerifiedUser,removeItemById)
 
 export default cartRoutes

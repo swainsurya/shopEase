@@ -20,7 +20,7 @@ const CartPage = () => {
 
     const getCartItms = async() => {
         try {
-            const req = await axios.get("/api/cart")
+            const req = await axios.get("https://shopease-server-f7ke.onrender.com/api/cart")
             const carts = req.data.userCart
             console.log(carts)
             setCartItems(carts)
@@ -36,7 +36,7 @@ const CartPage = () => {
 
     const removeItem = async(cartId) => {
         try {
-            await axios.post("/api/cart/remove",{cartId})
+            await axios.post("https://shopease-server-f7ke.onrender.com/api/cart/remove",{cartId})
             setCartItems(prev => prev.filter((item)=>item.cartId!=cartId))
             setRefreshCart(prev=>!prev)
             toast.success("Item removed")
@@ -50,7 +50,7 @@ const CartPage = () => {
             <h1 className="text-3xl md:text-5xl font-bold mb-6">Your Cart</h1>
             
             <div className="w-full flex flex-col gap-6 p-6 rounded-lg shadow-lg">
-                {cartItems.length > 0 ? (
+                {cartItems?.length > 0 ? (
                     cartItems?.reverse().map((item) => (
                         <div key={item?._id} className="flex flex-col md:flex-row items-center gap-6 p-4 rounded-lg shadow-md border-2 border-white">
                             <img 
@@ -78,7 +78,7 @@ const CartPage = () => {
                 )}
             </div>
             
-            {cartItems.length > 0 && (
+            {cartItems?.length > 0 && (
                 <div className="flex justify-end mt-6">
                     <Link to={"/check-out"} className="bg-blue-800 text-white shadow-md hover:bg-blue-700 px-6 py-3 text-lg font-medium transition-all duration-300 hover:scale-105">
                         Proceed to Checkout
