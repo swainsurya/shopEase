@@ -48,7 +48,7 @@ const Header = () => {
   }
 
   const handleLogout = async () => {
-    await axios.post("/api/user/logout")
+    localStorage.removeItem("token_user")
     setUser(null)
   }
 

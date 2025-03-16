@@ -12,6 +12,7 @@ export default function CommentSection({ productId, product }) {
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
+  const token = localStorage.getItem("token_user")
 
   // get product by id
   const getProductById = async () => {
@@ -34,7 +35,7 @@ export default function CommentSection({ productId, product }) {
       return;
     }
     try {
-      const req = await axios.post(`https://shopease-server-f7ke.onrender.com/api/product/comment/${productId}`, { message: newComment })
+      const req = await axios.post(`https://shopease-server-f7ke.onrender.com/api/product/comment/${productId}`, { message: newComment , token })
       if(!req.data.product) {
         // unathorized user
         toast.error(req.data.message)

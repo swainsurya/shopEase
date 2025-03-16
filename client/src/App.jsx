@@ -4,6 +4,8 @@ import { AdminPanel, AllProducts, CartPage, CheckoutPage, Home, LoginPage, Order
 import { AdminOrders, AdminProducts, Footer, Header } from './components'
 import { Toaster } from 'sonner'
 import ProtectedRoute from './lib/ProtectedRoute'
+import Success from './pages/Success'
+import Cancel from './pages/Cancel'
 
 const mode = localStorage.getItem("mode")
 
@@ -27,6 +29,8 @@ const App = () => {
           <Route path='/products' element={<AllProducts />} />
           <Route path='/product/details/:id' element={<ProductDetailsPage />} />
           <Route path='/login' element={<LoginPage />} />
+          <Route path='/success' element={<Success />} />
+          <Route path='/cancel' element={<Cancel />} />
           <Route path='/admin' element={<AdminPanel />}>
             <Route path='/admin-orders' element={<AdminOrders/>} />
             <Route path='/admin-products' element={<AdminProducts/>} />

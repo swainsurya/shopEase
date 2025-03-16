@@ -9,6 +9,7 @@ import productRoute from "./routes/product.routes.js"
 import cartRoutes from "./routes/cart.route.js"
 import orderRouter from "./routes/orders.route.js"
 import cors from "cors"
+import paymentRouter from "./routes/payment.routes.js"
 import "dotenv/config"
 
 const app = express()
@@ -41,6 +42,7 @@ app.use("/api/user", userRouter)
 app.use("/api/product", productRoute)
 app.use("/api/cart", cartRoutes)
 app.use("/api/orders", orderRouter)
+app.use("/api/check-out",paymentRouter)
 
 if (process.env.NODE_ENV === "development") {
     app.use(express.static(path.join(__dirname, "/client/dist")))
