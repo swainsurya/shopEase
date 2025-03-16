@@ -6,7 +6,7 @@ const orderRouter = Router();
 
 orderRouter.post("/add",getVerifiedUser,makeOrder)
 orderRouter.post("/change-stats", changeOrderStats)
-orderRouter.get("/order",getVerifiedUser,getOrders)
-orderRouter.get("/all",allOrders)
+orderRouter.post("/order",getVerifiedUser,getOrders)
+orderRouter.post("/all",allOrders)
 
 export default orderRouter

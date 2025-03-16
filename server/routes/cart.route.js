@@ -4,7 +4,7 @@ import { addToCart, getAllCarts, removeItemById } from "../controllers/cart.js";
 
 const cartRoutes = Router();
 
-cartRoutes.get("/",verifyUser,getAllCarts)
+cartRoutes.post("/",getVerifiedUser,getAllCarts)
 cartRoutes.post("/add/:productId",getVerifiedUser,addToCart)
 cartRoutes.post("/remove",getVerifiedUser,removeItemById)
 
