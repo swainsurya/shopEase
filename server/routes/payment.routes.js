@@ -6,7 +6,7 @@ const paymentRouter = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SK);
 
 // Create a checkout session
-router.post("/create-checkout-session", async (req, res) => {
+paymentRouter.post("/create-checkout-session", async (req, res) => {
     try {
         const { products } = req.body;
 
