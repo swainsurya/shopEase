@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
     const getUser = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get("/api/user/user");
+            const { data } = await axios.get("https://shopease-server-f7ke.onrender.com/api/user/user");
             setUser(data.user);
             if(!data) setUser(null)
         } catch (error) {
@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
     const fetchProducts = async() => {
         setLoading(true)
         try {
-            const req = await axios.get("/api/product/all")
+            const req = await axios.get("https://shopease-server-f7ke.onrender.com/api/product/all")
             setProducts(req.data.products)
             console.log(req.data.products)
             console.log(getProducts)

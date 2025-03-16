@@ -16,7 +16,15 @@ const port = process.env.PORT || 5000
 const __dirname = path.resolve()
 
 connectDB()
-app.use(cors())
+app.use(cors({
+    origin: (origin, callback) => {
+        callback(null, origin || "*"); // Allow all origins dynamically
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())

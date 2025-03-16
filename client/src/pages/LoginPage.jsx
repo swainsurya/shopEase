@@ -32,7 +32,7 @@ const LoginPage = () => {
         try {
             if (isLogin) {
                 // LOGIN API HERE
-                const req = await axios.post("https://shopease-ov8o.onrender.com/api/user/login", values)
+                const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/user/login", values)
                 const response = req.data
                 if (response.status) {
                     navigate("/")
