@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { getUser, login, logout, register, setAddress } from "../controllers/user.js"
-import { verifyUser } from "../middlewares/verifyUser.js"
+import { getVerifiedUser, verifyUser } from "../middlewares/verifyUser.js"
 
 const userRouter = Router()
 
@@ -9,10 +9,10 @@ userRouter.post("/register",register)
 userRouter.post("/login",login)
 userRouter.post("/logout",logout)
 
-userRouter.get("/user",verifyUser,getUser)
+userRouter.get("/user",getVerifiedUser,getUser)
 
 // profile fetching TODO
-userRouter.post("/address",verifyUser,setAddress)
+userRouter.post("/address",getVerifiedUser,setAddress)
 
 
 export default userRouter ;

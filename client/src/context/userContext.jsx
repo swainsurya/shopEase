@@ -21,6 +21,8 @@ export const UserProvider = ({ children }) => {
             );
             
             setUser(data.user);
+            console.log(user)
+            console.log(token)
             if(!data) setUser(null)
         } catch (error) {
             setUser(null)
