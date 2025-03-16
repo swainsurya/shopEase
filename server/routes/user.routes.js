@@ -9,10 +9,10 @@ userRouter.post("/register",register)
 userRouter.post("/login",login)
 userRouter.post("/logout",logout)
 
-userRouter.post("/user",verifyUser,getUser)
+userRouter.post("/user",getVerifiedUser,getUser)
 
 // profile fetching TODO
-userRouter.post("/address",verifyUser,setAddress)
+userRouter.post("/address",getVerifiedUser,setAddress)
 
 
 export default userRouter ;

@@ -12,6 +12,7 @@ const CartPage = () => {
     const [cartItems, setCartItems] = useState(user?.carts || []);
     const [refreshCart, setRefreshCart] = useState(false);
     const [SponseredProduct, setSponseredProducts] = useState(getProducts?.slice(0,8) || [])
+    const token = localStorage.getItem("token_user")
     const updateQuantity = (id, newQuantity) => {
         setCartItems(cartItems.map(item => 
             item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item
@@ -20,7 +21,7 @@ const CartPage = () => {
 
     const getCartItms = async() => {
         try {
-            const req = await axios.get("https://shopease-server-f7ke.onrender.com/api/cart")
+            const req = await axios.post("https://shopease-server-f7ke.onrender.com/api/cart",{token})
             const carts = req?.data
             console.log(carts)
             setCartItems(carts)
@@ -36,7 +37,7 @@ const CartPage = () => {
 
     const removeItem = async(cartId) => {
         try {
-            await axios.post("https://shopease-server-f7ke.onrender.com/api/cart/remove",{cartId})
+            await axios.post("https://shopease-server-f7ke.onrender.com/api/cart/remove",{cartId, token})
             setCartItems(prev => prev.filter((item)=>item.cartId!=cartId))
             setRefreshCart(prev=>!prev)
             toast.success("Item removed")
