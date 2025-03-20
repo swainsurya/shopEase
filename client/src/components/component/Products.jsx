@@ -16,7 +16,7 @@ const ProductSection = ({ sectionName, products }) => {
 
     const handleAddToCart = async(productId) => {
         try {
-            await axios.post(`https://shopease-server-f7ke.onrender.com/api/cart/add/${productId}`)
+            await axios.post(`https://shopease-server-f7ke.onrender.com/api/cart/add/${productId}`,{token})
             toast.success("Item added")
             increaseCart()
         } catch (error) {
